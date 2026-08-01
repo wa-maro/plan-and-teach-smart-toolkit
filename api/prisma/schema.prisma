@@ -16,5 +16,22 @@ model MediumOfInstruction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  subjects Subject[]
+
   @@map("medium_of_instructions")
+}
+
+model Subject {
+  id                    String   @id @default(uuid())
+  name                  String   @unique
+  slug                  String   @unique
+  abbreviation          String   @unique
+  mediumOfInstructionId String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  mediumOfInstruction MediumOfInstruction @relation(fields: [mediumOfInstructionId], references: [id], onDelete: Restrict)
+
+  @@index([mediumOfInstructionId])
+  @@map("subjects")
 }
