@@ -1,0 +1,14 @@
+# Editor files
+.vscode/
+.idea/
+
+# Environment files accidentally placed at repo root
+.env
+.env.local
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
