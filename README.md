@@ -21,3 +21,13 @@ It provides direct access to syllabus materials and guides teachers through prep
 - ✅ Teaching Notes
 
 By streamlining the teaching preparation process, TeachDocs Kit saves time, reduces repetitive work, and ensures alignment with curriculum standards.
+
+### Folder Structure
+
+- `api/` → Backend API
+
+### Setup
+
+See folder-specific READMEs for setup instructions:
+
+- [Backend Setup](api/README.md)
