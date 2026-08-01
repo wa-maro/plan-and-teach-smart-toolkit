@@ -27,6 +27,22 @@ Copy environment variables
 $ cp .env.example .env
 ```
 
+### Database & Prisma
+
+To apply database migrations, run:
+
+```bash
+$ npx prisma migrate dev
+```
+
+`NB:` Make sure PostgreSQl is installed and running.
+
+To generate Prisma Client, run:
+
+```bash
+$ npx prisma generate
+```
+
 ### Development
 
 To start a local development server, run:
