@@ -8,7 +8,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model InstructionalMedia {
+model MediumOfInstruction {
   id   String @id @default(uuid())
   name String @unique
   code String @unique
