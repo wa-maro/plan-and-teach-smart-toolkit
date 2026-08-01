@@ -7,3 +7,14 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model InstructionalMedia {
+  id   String @id @default(uuid())
+  name String @unique
+  code String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("medium_of_instructions")
+}
