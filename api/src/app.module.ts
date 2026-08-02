@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './prisma/prisma.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -11,11 +12,19 @@ import * as Joi from 'joi';
           .valid('development', 'production', 'test')
           .default('development'),
         PORT: Joi.number().port().default(3000),
+        DATABASE_URL: Joi.string()
+          .pattern(/^postgres(ql)?:\/\//)
+          .required()
+          .messages({
+            'string.pattern.base':
+              'DATABASE_URL must be a valid PostgreSQL connection string',
+          }),
       }),
       validationOptions: {
         abortEarly: process.env.NODE_ENV === 'production',
       },
     }),
+    PrismaModule,
   ],
   controllers: [],
   providers: [],
