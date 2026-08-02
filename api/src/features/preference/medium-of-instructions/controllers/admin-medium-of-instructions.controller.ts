@@ -23,7 +23,7 @@ export class AdminMediumOfInstructionsController {
   }
 
   @Get()
-  findAll(@Query('query') query: MediumOfInstructionQueryDto) {
+  findAll(@Query() query: MediumOfInstructionQueryDto) {
     return this.mediumOfInstructionsService.findAll(query);
   }
 
