@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../src/generated/prisma/client';
+import { seedMediumOfInstruction } from './seeders/medium-of-instruction.seeder';
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -14,6 +15,8 @@ const prisma = new PrismaClient({
 
 async function main() {
   await prisma.$connect();
+
+  await seedMediumOfInstruction(prisma);
 }
 
 main()
