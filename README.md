@@ -25,9 +25,11 @@ By streamlining the teaching preparation process, TeachDocs Kit saves time, redu
 ### Folder Structure
 
 - `api/` → Backend API
+- `web/` → Web Application
 
 ### Setup
 
 See folder-specific READMEs for setup instructions:
 
 - [Backend Setup](api/README.md)
+- [Web App Setup](web/README.md)
