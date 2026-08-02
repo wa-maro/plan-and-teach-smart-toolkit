@@ -6,8 +6,10 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { MediumOfInstructionsService } from '../medium-of-instructions.service';
+import { MediumOfInstructionQueryDto } from '../dtos/request/medium-of-instruction-query.dto';
 
 @Controller('admin/medium-of-instructions')
 export class AdminMediumOfInstructionsController {
@@ -21,8 +23,8 @@ export class AdminMediumOfInstructionsController {
   }
 
   @Get()
-  findAll() {
-    return this.mediumOfInstructionsService.findAll();
+  findAll(@Query('query') query: MediumOfInstructionQueryDto) {
+    return this.mediumOfInstructionsService.findAll(query);
   }
 
   @Get()

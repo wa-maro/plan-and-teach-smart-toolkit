@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { MediumOfInstructionQueryDto } from './dtos/request/medium-of-instruction-query.dto';
 
 @Injectable()
 export class MediumOfInstructionsService {
@@ -7,7 +8,7 @@ export class MediumOfInstructionsService {
 
   async create() {}
 
-  async findAll() {}
+  async findAll(query: MediumOfInstructionQueryDto) {}
 
   async findOne(id: string) {}
 
