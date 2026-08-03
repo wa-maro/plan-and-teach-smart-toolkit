@@ -8,7 +8,15 @@ async function bootstrap() {
 
   const config = app.get(ConfigService);
 
-  const port = config.getOrThrow<number>('PORT') || 3000;
+  const allowedOrigins =
+    config.get<string>('FRONTEND_ORIGIN')?.split(',') || [];
+
+  app.enableCors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -20,6 +28,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1/');
 
+  const port = config.getOrThrow<number>('PORT') || 3000;
   await app.listen(port);
 }
 bootstrap();
