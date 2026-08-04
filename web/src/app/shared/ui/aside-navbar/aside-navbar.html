@@ -1,0 +1,5 @@
+<mat-nav-list class="space-y-1">
+  @for (navLink of navLinks(); track navLink) {
+    <app-aside-navlink [navLink]="navLink" />
+  }
+</mat-nav-list>
