@@ -5,10 +5,11 @@ import {
 import { MediumOfInstructionMinimalResponseDto } from '../../../../preference/medium-of-instructions/dtos/response/medium-minimal-response.dto';
 
 export class SubjectResponseDto {
-  id: string;
-  name: string;
-  slug: string;
-  updatedAt: string;
+  readonly id: string;
+  readonly name: string;
+  readonly slug: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 
   mediumOfInstruction: MediumOfInstructionMinimalResponseDto;
 
@@ -19,6 +20,7 @@ export class SubjectResponseDto {
     this.mediumOfInstruction = new MediumOfInstructionMinimalResponseDto(
       medium,
     );
+    this.createdAt = subject.createdAt.toISOString();
     this.updatedAt = subject.updatedAt.toISOString();
   }
 }
