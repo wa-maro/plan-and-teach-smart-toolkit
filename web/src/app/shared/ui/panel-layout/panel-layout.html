@@ -1,0 +1,17 @@
+<header>
+  <app-header-toolbar [(opened)]="opened" />
+</header>
+
+<mat-sidenav-container class="dashboard-container mt-1">
+  <mat-sidenav [mode]="isMobile() ? 'over' : 'side'" [(opened)]="opened">
+    <aside class="h-full overflow-y-auto px-6 py-5">
+      <app-aside-navbar [navLinks]="navLinks" />
+    </aside>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main class="min-h-full bg-white px-4 py-5 md:px-6">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
