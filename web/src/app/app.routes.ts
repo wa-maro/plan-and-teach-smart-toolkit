@@ -26,6 +26,11 @@ export const routes: Routes = [
           title: 'Medium of Instructions',
           icon: 'translate',
         },
+        {
+          url: ['academic', 'subjects'],
+          title: 'Subjects',
+          icon: 'menu_book',
+        },
       ],
     },
   },
