@@ -14,7 +14,9 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "@shared/*": ["./src/app/shared/*"]
+      "@shared/*": ["./src/app/shared/*"],
+      "@preference/*": ["./src/app/admin/preference/*"],
+      "@academic/*": ["./src/app/admin/academic/*"]
     }
   },
   "angularCompilerOptions": {
