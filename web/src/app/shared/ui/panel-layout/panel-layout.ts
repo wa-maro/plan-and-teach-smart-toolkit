@@ -13,7 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   templateUrl: './panel-layout.html',
   styles: `
     .dashboard-container {
-      height: calc(100vh - 64px);
+      height: calc(100vh - 70px);
     }
 
     mat-sidenav {
