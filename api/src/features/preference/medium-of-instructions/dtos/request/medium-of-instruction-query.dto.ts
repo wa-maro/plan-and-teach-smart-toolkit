@@ -1,4 +1,4 @@
-import { QueryFiltersDto } from '../../../../../common/dtos/request/query-filters.dto';
+import { QueryFiltersDto } from '@common/dtos/request';
 import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export const allowedSortFields = ['name', 'createdAt', 'updatedAt'] as const;

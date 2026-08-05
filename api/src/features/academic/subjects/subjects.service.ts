@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../prisma/prisma.service';
-import { ApiResponseDto } from '../../../common/dtos/response/api-response.dto';
+import { PrismaService } from '@prisma';
 import { SubjectQueryDto } from './dtos/request/subject-query.dto';
 import { SubjectResponseDto } from './dtos/response/subject-response.dto';
+import { ApiResponseDto } from '@common/dtos/response';
 
 @Injectable()
 export class SubjectsService {

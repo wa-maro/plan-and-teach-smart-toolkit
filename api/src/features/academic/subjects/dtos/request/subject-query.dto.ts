@@ -1,6 +1,5 @@
+import { QueryFiltersDto, QueryPaginationDto } from '@common/dtos/request';
 import { IntersectionType } from '@nestjs/mapped-types';
-import { QueryFiltersDto } from '../../../../../common/dtos/request/query-filters.dto';
-import { QueryPaginationDto } from '../../../../../common/dtos/request/query-pagination.dto';
 import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export const allowedSortFields = ['name', 'createdAt', 'updatedAt'] as const;
