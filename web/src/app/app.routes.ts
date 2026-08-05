@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PanelLayout } from './shared/ui/panel-layout/panel-layout';
+import { PanelLayout } from '@shared/components';
 
 export const routes: Routes = [
   {

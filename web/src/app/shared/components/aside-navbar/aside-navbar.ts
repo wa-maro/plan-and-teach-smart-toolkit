@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { MatNavList } from '@angular/material/list';
-import { NavLinkItem } from '../../interfaces/navlink-item.interface';
-import { AsideNavlink } from '../aside-navlink/aside-navlink';
+import { AsideNavlink } from '../aside-navlink';
+import { NavLinkItem } from '@shared/types/navigation';
 
 @Component({
   selector: 'app-aside-navbar',

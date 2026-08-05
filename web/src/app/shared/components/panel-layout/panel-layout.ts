@@ -2,10 +2,10 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { NavLinkItem } from '../../interfaces/navlink-item.interface';
-import { HeaderToolbar } from '../header-toolbar/header-toolbar';
-import { AsideNavbar } from '../aside-navbar/aside-navbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { HeaderToolbar } from '../header-toolbar';
+import { AsideNavbar } from '../aside-navbar';
+import { NavLinkItem } from '@shared/types/navigation';
 
 @Component({
   selector: 'app-panel-layout',
