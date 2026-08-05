@@ -10,4 +10,12 @@ export const routes: Routes = [
       navLinks: [{ url: 'dashboard', title: 'Dashboard' }],
     },
   },
+  {
+    path: 'admin',
+    component: PanelLayout,
+    loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
+    data: {
+      navLinks: [{ url: 'dashboard', title: 'Dashboard' }],
+    },
+  },
 ];
