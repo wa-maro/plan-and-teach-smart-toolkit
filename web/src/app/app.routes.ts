@@ -15,7 +15,18 @@ export const routes: Routes = [
     component: PanelLayout,
     loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
     data: {
-      navLinks: [{ url: 'dashboard', title: 'Dashboard' }],
+      navLinks: [
+        {
+          url: 'dashboard',
+          title: 'Dashboard',
+          icon: 'dashboard',
+        },
+        {
+          url: ['preference', 'medium-of-instructions'],
+          title: 'Medium of Instructions',
+          icon: 'translate',
+        },
+      ],
     },
   },
 ];
