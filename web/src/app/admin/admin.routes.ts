@@ -12,4 +12,16 @@ export const adminRoutes: Routes = [
     component: AdminDashboard,
     title: 'Dashboard | TeachDocs',
   },
+  {
+    path: 'preference',
+    loadChildren: () => import('./preference/preference.routes').then((m) => m.preferenceRoutes),
+  },
+  {
+    path: 'academic',
+    loadChildren: () => import('./academic/academic.routes').then((m) => m.academicRoutes),
+  },
+  {
+    path: 'syllabus',
+    loadChildren: () => import('./syllabus/syllabus.routes').then((m) => m.syllabusRoutes),
+  },
 ];
