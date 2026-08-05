@@ -1,2 +1,2 @@
-export * from './api-response.dto';
+export * from './success-response.dto';
 export * from './pagination-meta.dto';

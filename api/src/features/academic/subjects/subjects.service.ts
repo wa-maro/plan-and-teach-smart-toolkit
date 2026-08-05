@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@prisma';
 import { SubjectQueryDto } from './dtos/request/subject-query.dto';
 import { SubjectResponseDto } from './dtos/response/subject-response.dto';
-import { ApiResponseDto } from '@common/dtos/response';
+import { SuccessResponseDto } from '@common/dtos/response';
 
 @Injectable()
 export class SubjectsService {
@@ -10,7 +10,7 @@ export class SubjectsService {
 
   async findAll(
     query: SubjectQueryDto,
-  ): Promise<ApiResponseDto<SubjectResponseDto>> {
+  ): Promise<SuccessResponseDto<SubjectResponseDto[]>> {
     const { page, limit, sortBy, order } = query;
 
     const skip = (page - 1) * limit;
