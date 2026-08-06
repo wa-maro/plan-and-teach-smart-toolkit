@@ -4,6 +4,8 @@ import { PrismaModule } from '@prisma';
 import * as Joi from 'joi';
 import { AcademicModule } from './features/academic';
 import { PreferenceModule } from './features/preference';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ResponseInterceptor } from '@common/interceptors';
 
 @Module({
   imports: [
@@ -31,6 +33,11 @@ import { PreferenceModule } from './features/preference';
     PreferenceModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
+  ],
 })
 export class AppModule {}

@@ -6,6 +6,8 @@ import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.setGlobalPrefix('api/v1/');
+
   const config = app.get(ConfigService);
 
   const allowedOrigins =
@@ -25,8 +27,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-
-  app.setGlobalPrefix('api/v1/');
 
   const port = config.getOrThrow<number>('PORT') || 3000;
   await app.listen(port);
