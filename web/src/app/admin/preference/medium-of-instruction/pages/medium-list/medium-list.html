@@ -1,6 +1,19 @@
-<section class="flex flex-col gap-4 md:flex-row md:justify-between md:items-end mb-4">
-  <div class="space-y-1.5 flex-1">
-    <h2 class="text-xl font-semibold">Medium of Instructions</h2>
-    <p class="">A list of all the languages used as a medium of instruction.</p>
-  </div>
-</section>
+<div class="space-y-6">
+  <section class="flex items-center justify-between gap-4">
+    <div class="flex-1 space-y-1">
+      <h1 class="text-xl md:text-2xl font-semibold tracking-tight">Medium of Instructions</h1>
+
+      <p class="text-sm text-gray-600">A list of all languages used as a medium of instruction.</p>
+    </div>
+
+    <div>
+      <button mat-flat-button color="primary" class="min-w-0! px-3! sm:px-4! rounded-full">
+        <mat-icon class="m-0!">add</mat-icon>
+
+        <span class="hidden sm:inline sm:ml-2">Add Language</span>
+      </button>
+    </div>
+  </section>
+
+  <app-medium-table [media]="media()"></app-medium-table>
+</div>
