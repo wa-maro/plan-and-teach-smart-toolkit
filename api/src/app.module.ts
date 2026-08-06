@@ -4,8 +4,9 @@ import { PrismaModule } from '@prisma';
 import * as Joi from 'joi';
 import { AcademicModule } from './features/academic';
 import { PreferenceModule } from './features/preference';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@common/interceptors';
+import { GlobalExceptionFilter } from '@common/filters';
 
 @Module({
   imports: [
@@ -37,6 +38,10 @@ import { ResponseInterceptor } from '@common/interceptors';
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
     },
   ],
 })
