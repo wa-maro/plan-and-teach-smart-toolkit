@@ -1,11 +1,30 @@
+import { ServiceResponse } from '@common/interfaces';
 import { PaginationMetaDto } from './pagination-meta.dto';
 
-export class SuccessResponseDto<T> {
-  data: T;
-  meta?: PaginationMetaDto;
+export class SuccessResponseDto<T> implements ServiceResponse<T> {
+  readonly success = true;
 
-  constructor(data: T, meta?: PaginationMetaDto) {
-    this.data = data;
-    this.meta = meta;
+  readonly statusCode: number;
+
+  readonly message: string;
+
+  readonly data: T;
+
+  readonly meta?: PaginationMetaDto;
+
+  readonly timestamp: string;
+
+  constructor(
+    statusCode: number,
+    message: string,
+    response: ServiceResponse<T>,
+  ) {
+    this.statusCode = statusCode;
+    this.message = message;
+
+    this.data = response.data;
+    this.meta = response.meta;
+
+    this.timestamp = new Date().toISOString();
   }
 }
