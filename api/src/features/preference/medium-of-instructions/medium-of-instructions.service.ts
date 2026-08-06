@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { MediumOfInstructionQueryDto } from './dtos/request/medium-of-instruction-query.dto';
 import { MediumOfInstructionResponseDto } from './dtos/response/medium-response.dto';
-import { SuccessResponseDto } from '@common/dtos/response';
 import { Prisma, PrismaService } from '@prisma';
+import { ServiceResponse } from '@common/interfaces';
 
 @Injectable()
 export class MediumOfInstructionsService {
@@ -16,7 +16,7 @@ export class MediumOfInstructionsService {
 
   async findAll(
     query: MediumOfInstructionQueryDto,
-  ): Promise<SuccessResponseDto<MediumOfInstructionResponseDto[]>> {
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto[]>> {
     const { sortBy, order } = query;
 
     const sortByKey = sortBy ? sortBy : 'name';
@@ -31,7 +31,7 @@ export class MediumOfInstructionsService {
       (medium) => new MediumOfInstructionResponseDto(medium),
     );
 
-    return new SuccessResponseDto(data);
+    return { data };
   }
 
   async findOne(id: string) {}

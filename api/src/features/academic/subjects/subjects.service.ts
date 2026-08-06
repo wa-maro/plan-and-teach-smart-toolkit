@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, PrismaService } from '@prisma';
 import { SubjectQueryDto } from './dtos/request/subject-query.dto';
 import { SubjectResponseDto } from './dtos/response/subject-response.dto';
-import { PaginationMetaDto, SuccessResponseDto } from '@common/dtos/response';
+import { PaginationMetaDto } from '@common/dtos/response';
+import { ServiceResponse } from '@common/interfaces';
 
 @Injectable()
 export class SubjectsService {
@@ -10,7 +11,7 @@ export class SubjectsService {
 
   async findAll(
     query: SubjectQueryDto,
-  ): Promise<SuccessResponseDto<SubjectResponseDto[]>> {
+  ): Promise<ServiceResponse<SubjectResponseDto[]>> {
     const { page, limit, sortBy, order } = query;
 
     const skip = (page - 1) * limit;
@@ -35,7 +36,7 @@ export class SubjectsService {
     );
     const meta = new PaginationMetaDto(page, limit, total);
 
-    return new SuccessResponseDto(data, meta);
+    return { data, meta };
   }
 
   async remove(id: string) {

@@ -1,0 +1,6 @@
+import { PaginationMetaDto } from '@common/dtos/response';
+
+export interface ServiceResponse<T> {
+  readonly data: T;
+  readonly meta?: PaginationMetaDto;
+}
