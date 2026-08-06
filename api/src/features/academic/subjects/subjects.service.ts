@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@prisma';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma, PrismaService } from '@prisma';
 import { SubjectQueryDto } from './dtos/request/subject-query.dto';
 import { SubjectResponseDto } from './dtos/response/subject-response.dto';
 import { PaginationMetaDto, SuccessResponseDto } from '@common/dtos/response';
@@ -36,5 +36,23 @@ export class SubjectsService {
     const meta = new PaginationMetaDto(page, limit, total);
 
     return new SuccessResponseDto(data, meta);
+  }
+
+  async remove(id: string) {
+    try {
+      return await this.prisma.subject.delete({
+        where: { id },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(`Subject with ID ${id} not found`);
+
+          default:
+            throw error;
+        }
+      }
+    }
   }
 }
