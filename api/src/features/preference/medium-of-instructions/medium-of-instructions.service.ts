@@ -38,27 +38,22 @@ export class MediumOfInstructionsService {
 
   async update(id: string) {}
 
-  async remove(id: string): Promise<{ data: null }> {
+  async remove(id: string): Promise<void> {
     try {
       await this.prisma.mediumOfInstruction.delete({
         where: { id },
       });
-      return { data: null };
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2025':
-            throw new NotFoundException(
-              `Medium of instruction with ID ${id} not found`,
-            );
+            throw new NotFoundException('Medium of instruction not found');
 
           case 'P2003':
+          case 'P2039':
             throw new ConflictException(
-              'Cannot delete medium of instruction because it is being used by one or more subjects.',
+              'Cannot delete medium of instruction because it is used by subjects.',
             );
-
-          default:
-            throw error;
         }
       }
 

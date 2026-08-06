@@ -39,21 +39,16 @@ export class SubjectsService {
     return { data, meta };
   }
 
-  async remove(id: string): Promise<{ data: null }> {
+  async remove(id: string): Promise<void> {
     try {
       await this.prisma.subject.delete({
         where: { id },
       });
-
-      return { data: null };
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2025':
             throw new NotFoundException(`Subject with ID ${id} not found`);
-
-          default:
-            throw error;
         }
       }
 
