@@ -181,3 +181,23 @@ mat-sidenav {
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 1rem;
 }
+
+.mat-mdc-header-cell {
+  font-weight: 600;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding-inline: 1rem;
+}
+
+.mat-mdc-cell {
+  vertical-align: middle;
+  padding-inline: 1rem;
+}
+
+.mat-mdc-row:hover {
+  background-color: #f9fafb;
+}
+
+.mat-mdc-no-data-row td {
+  padding: 2rem;
+}
