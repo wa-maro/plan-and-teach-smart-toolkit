@@ -39,11 +39,13 @@ export class SubjectsService {
     return { data, meta };
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<{ data: null }> {
     try {
-      return await this.prisma.subject.delete({
+      await this.prisma.subject.delete({
         where: { id },
       });
+
+      return { data: null };
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
@@ -54,6 +56,8 @@ export class SubjectsService {
             throw error;
         }
       }
+
+      throw error;
     }
   }
 }
