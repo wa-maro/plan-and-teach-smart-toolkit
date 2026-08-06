@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@prisma';
 import { SubjectQueryDto } from './dtos/request/subject-query.dto';
 import { SubjectResponseDto } from './dtos/response/subject-response.dto';
-import { SuccessResponseDto } from '@common/dtos/response';
+import { PaginationMetaDto, SuccessResponseDto } from '@common/dtos/response';
 
 @Injectable()
 export class SubjectsService {
@@ -33,15 +33,8 @@ export class SubjectsService {
     const data = subjects.map(
       (subject) => new SubjectResponseDto(subject, subject.mediumOfInstruction),
     );
+    const meta = new PaginationMetaDto(page, limit, total);
 
-    return {
-      data,
-      meta: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-      },
-    };
+    return new SuccessResponseDto(data, meta);
   }
 }

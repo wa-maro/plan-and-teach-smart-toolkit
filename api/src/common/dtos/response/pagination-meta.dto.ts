@@ -2,7 +2,7 @@ export class PaginationMetaDto {
   page: number;
   limit: number;
   total: number;
-  totalPages: number;
+  readonly totalPages: number;
 
   constructor(page: number, limit: number, total: number) {
     this.page = page;

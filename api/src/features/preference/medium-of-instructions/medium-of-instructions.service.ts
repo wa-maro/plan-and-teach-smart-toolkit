@@ -27,9 +27,7 @@ export class MediumOfInstructionsService {
       (medium) => new MediumOfInstructionResponseDto(medium),
     );
 
-    return {
-      data,
-    };
+    return new SuccessResponseDto(data);
   }
 
   async findOne(id: string) {}
