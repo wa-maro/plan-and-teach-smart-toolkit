@@ -1,8 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { MediumOfInstructionQueryDto } from './dtos/request/medium-of-instruction-query.dto';
 import { MediumOfInstructionResponseDto } from './dtos/response/medium-response.dto';
 import { SuccessResponseDto } from '@common/dtos/response';
-import { PrismaService } from '@prisma';
+import { Prisma, PrismaService } from '@prisma';
 
 @Injectable()
 export class MediumOfInstructionsService {
@@ -34,5 +38,30 @@ export class MediumOfInstructionsService {
 
   async update(id: string) {}
 
-  async remove(id: string) {}
+  async remove(id: string) {
+    try {
+      return await this.prisma.mediumOfInstruction.delete({
+        where: { id },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(
+              `Medium of instruction with ID ${id} not found`,
+            );
+
+          case 'P2003':
+            throw new ConflictException(
+              'Cannot delete medium of instruction because it is being used by one or more subjects.',
+            );
+
+          default:
+            throw error;
+        }
+      }
+
+      throw error;
+    }
+  }
 }

@@ -2,6 +2,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -37,7 +39,8 @@ export class AdminMediumOfInstructionsController {
     return this.mediumOfInstructionsService.update(id);
   }
 
-  @Delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.mediumOfInstructionsService.remove(id);
   }
