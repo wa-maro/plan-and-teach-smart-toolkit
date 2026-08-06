@@ -1,1 +1,1 @@
-export * from './sucess-api-response';
+export * from './success-api-response';

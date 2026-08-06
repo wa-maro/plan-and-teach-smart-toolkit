@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { SucessApiResponse } from '@shared/types/api';
+import { SuccessApiResponse } from '@shared/types/api';
 import { Observable } from 'rxjs';
 
 export abstract class CrudService<T, CreateDto, UpdateDto> {
@@ -8,23 +8,23 @@ export abstract class CrudService<T, CreateDto, UpdateDto> {
 
   constructor(protected readonly apiUrl: string) {}
 
-  create(dto: CreateDto): Observable<SucessApiResponse<T>> {
-    return this.http.post<SucessApiResponse<T>>(this.apiUrl, dto);
+  create(dto: CreateDto): Observable<SuccessApiResponse<T>> {
+    return this.http.post<SuccessApiResponse<T>>(this.apiUrl, dto);
   }
 
-  findAll(): Observable<SucessApiResponse<T[]>> {
-    return this.http.get<SucessApiResponse<T[]>>(this.apiUrl);
+  findAll(): Observable<SuccessApiResponse<T[]>> {
+    return this.http.get<SuccessApiResponse<T[]>>(this.apiUrl);
   }
 
-  findOne(id: string): Observable<SucessApiResponse<T>> {
-    return this.http.get<SucessApiResponse<T>>(`${this.apiUrl}/${id}`);
+  findOne(id: string): Observable<SuccessApiResponse<T>> {
+    return this.http.get<SuccessApiResponse<T>>(`${this.apiUrl}/${id}`);
   }
 
-  update(id: string, dto: UpdateDto): Observable<SucessApiResponse<T>> {
-    return this.http.patch<SucessApiResponse<T>>(`${this.apiUrl}/${id}`, dto);
+  update(id: string, dto: UpdateDto): Observable<SuccessApiResponse<T>> {
+    return this.http.patch<SuccessApiResponse<T>>(`${this.apiUrl}/${id}`, dto);
   }
 
-  remove(id: string): Observable<SucessApiResponse<T>> {
-    return this.http.delete<SucessApiResponse<T>>(`${this.apiUrl}/${id}`);
+  remove(id: string): Observable<SuccessApiResponse<T>> {
+    return this.http.delete<SuccessApiResponse<T>>(`${this.apiUrl}/${id}`);
   }
 }

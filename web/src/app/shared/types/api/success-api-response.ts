@@ -5,7 +5,11 @@ export interface PaginationMeta {
   totalPages: number;
 }
 
-export interface SucessApiResponse<T> {
+export interface SuccessApiResponse<T> {
+  success: true;
+  statusCode: number;
+  message: string;
   data: T;
   meta?: PaginationMeta;
+  timestamp: string;
 }
