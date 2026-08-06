@@ -38,11 +38,12 @@ export class MediumOfInstructionsService {
 
   async update(id: string) {}
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string): Promise<null> {
     try {
       await this.prisma.mediumOfInstruction.delete({
         where: { id },
       });
+      return null;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
