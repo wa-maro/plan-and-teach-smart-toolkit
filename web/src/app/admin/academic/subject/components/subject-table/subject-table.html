@@ -10,15 +10,22 @@
       <td mat-cell *matCellDef="let subject">{{ subject.name }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="mediumOfInstruction">
+      <th mat-header-cell *matHeaderCellDef>Medium of instruction</th>
+      <td mat-cell *matCellDef="let subject">
+        {{ subject.mediumOfInstruction.name }}
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="updatedAt">
       <th mat-header-cell *matHeaderCellDef>Last update</th>
       <td mat-cell *matCellDef="let subject">{{ subject.updatedAt | date: 'mediumDate' }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="mediumOfInstruction">
-      <th mat-header-cell *matHeaderCellDef>Medium of instruction</th>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let subject">
-        {{ subject.mediumOfInstruction.name }}
+        <app-delete-item-action [item]="subject" (deleteItem)="onDelete(subject)" />
       </td>
     </ng-container>
 
