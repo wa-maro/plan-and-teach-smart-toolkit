@@ -14,9 +14,9 @@ export class MediumTable {
   readonly media = input.required<MediumOfInstruction[]>();
   protected readonly displayedColumns = ['index', 'name', 'updatedAt', 'actions'];
 
-  protected readonly deleteSubject = output<MediumOfInstruction>();
+  protected readonly deleteMedium = output<MediumOfInstruction>();
 
   protected onDelete(item: MediumOfInstruction) {
-    this.deleteSubject.emit(item);
+    this.deleteMedium.emit(item);
   }
 }
