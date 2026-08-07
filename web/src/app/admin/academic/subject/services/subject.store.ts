@@ -2,6 +2,7 @@ import { computed, inject, Service, signal } from '@angular/core';
 import { SubjectService } from './subject.service';
 import { Subject } from '../models';
 import { finalize } from 'rxjs';
+import { ToastService } from '@shared/components/toast/service';
 
 interface SubjectState {
   subjects: Subject[];
@@ -11,6 +12,7 @@ interface SubjectState {
 @Service()
 export class SubjectStore {
   private readonly subjectService = inject(SubjectService);
+  private readonly toastService = inject(ToastService);
 
   private readonly _state = signal<SubjectState>({
     subjects: [],
@@ -29,7 +31,7 @@ export class SubjectStore {
       .pipe(finalize(() => this.updateCurrentState({ loading: false })))
       .subscribe({
         next: ({ data }) => this.updateCurrentState({ subjects: data }),
-        error: (error) => console.error(error),
+        error: () => {},
       });
   }
 
@@ -44,8 +46,10 @@ export class SubjectStore {
           const updatedMedia = this.subjects().filter((subject) => subject.id !== id);
 
           this.updateCurrentState({ subjects: updatedMedia });
+
+          this.toastService.success('Subject deleted successfully.');
         },
-        error: (error) => console.error(error),
+        error: () => {},
       });
   }
 

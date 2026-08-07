@@ -2,6 +2,7 @@ import { computed, inject, Service, signal } from '@angular/core';
 import { MediumService } from './medium.service';
 import { MediumOfInstruction } from '../models';
 import { finalize } from 'rxjs';
+import { ToastService } from '@shared/components/toast/service';
 
 interface MediumState {
   media: MediumOfInstruction[];
@@ -11,6 +12,7 @@ interface MediumState {
 @Service()
 export class MediumStore {
   private readonly mediumService = inject(MediumService);
+  private readonly toastService = inject(ToastService);
 
   private readonly _state = signal<MediumState>({
     media: [],
@@ -29,7 +31,7 @@ export class MediumStore {
       .pipe(finalize(() => this.updateCurrentState({ loading: false })))
       .subscribe({
         next: ({ data }) => this.updateCurrentState({ media: data }),
-        error: (error) => console.error(error),
+        error: () => {},
       });
   }
 
@@ -44,8 +46,10 @@ export class MediumStore {
           const updatedMedia = this.media().filter((medium) => medium.id !== id);
 
           this.updateCurrentState({ media: updatedMedia });
+
+          this.toastService.success('Medium of instruction deleted successfully.');
         },
-        error: (error) => console.error(error),
+        error: () => {},
       });
   }
 

@@ -1,8 +1,12 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { ToastService } from '@shared/components/toast/service';
 import { AppError, ErrorApiResponse } from '@shared/types/api';
 import { catchError, throwError } from 'rxjs';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const toast = inject(ToastService);
+
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       const apiError = error.error as Partial<ErrorApiResponse>;
@@ -11,6 +15,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         statusCode: error.status,
         message: getErrorMessage(error),
       };
+
+      toast.error(appError.message);
 
       console.error('HTTP Error', {
         http: error,
