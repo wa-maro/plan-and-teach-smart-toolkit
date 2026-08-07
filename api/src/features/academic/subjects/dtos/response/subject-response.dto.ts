@@ -1,9 +1,6 @@
-import {
-  MediumOfInstruction,
-  Subject,
-} from '../../../../../generated/prisma/client';
-import { SubjectMinimalResponseDto } from './subject-minima-response.tdo';
-import { MediumOfInstructionMinimalResponseDto } from '../../../../preference/medium-of-instructions/dtos/response/medium-minimal-response.dto';
+import { MediumOfInstruction, Subject } from '@prisma';
+import { SubjectMinimalResponseDto } from './subject-minimal-response.tdo';
+import { MediumOfInstructionMinimalResponseDto } from '@preference/medium-of-instructions/dtos/response';
 
 export class SubjectResponseDto extends SubjectMinimalResponseDto {
   readonly slug: string;

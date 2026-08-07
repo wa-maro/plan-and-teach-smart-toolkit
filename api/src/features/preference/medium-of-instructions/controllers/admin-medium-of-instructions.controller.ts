@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { MediumOfInstructionsService } from '../medium-of-instructions.service';
-import { MediumOfInstructionQueryDto } from '../dtos/request/medium-of-instruction-query.dto';
+import { MediumOfInstructionQueryDto } from '../dtos/request';
 import { SuccessMessage } from '@common/decorators';
 
 @Controller('admin/medium-of-instructions')

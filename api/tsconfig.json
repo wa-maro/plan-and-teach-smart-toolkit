@@ -16,8 +16,8 @@
     "paths": {
       "@common/*": ["./src/common/*"],
       "@prisma": ["./src/prisma"],
-      "@preference/*": ["./src/preference/*"],
-      "@academic/*": ["./src/academic/*"]
+      "@preference/*": ["./src/features/preference/*"],
+      "@academic/*": ["./src/features/academic/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

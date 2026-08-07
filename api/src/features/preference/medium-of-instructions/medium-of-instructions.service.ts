@@ -3,8 +3,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { MediumOfInstructionQueryDto } from './dtos/request/medium-of-instruction-query.dto';
-import { MediumOfInstructionResponseDto } from './dtos/response/medium-response.dto';
+import { MediumOfInstructionQueryDto } from './dtos/request';
+import { MediumOfInstructionResponseDto } from './dtos/response';
 import { Prisma, PrismaService } from '@prisma';
 import { ServiceResponse } from '@common/interfaces';
 

@@ -1,5 +1,5 @@
 import { SuccessMessage } from '@common/decorators';
-import { SubjectQueryDto } from '../dtos/request/subject-query.dto';
+import { SubjectQueryDto } from '../dtos/request';
 import { SubjectsService } from '../subjects.service';
 import {
   Controller,

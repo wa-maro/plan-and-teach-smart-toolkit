@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, PrismaService } from '@prisma';
-import { SubjectQueryDto } from './dtos/request/subject-query.dto';
-import { SubjectResponseDto } from './dtos/response/subject-response.dto';
+import { SubjectQueryDto } from './dtos/request';
+import { SubjectResponseDto } from './dtos/response';
 import { PaginationMetaDto } from '@common/dtos/response';
 import { ServiceResponse } from '@common/interfaces';
 
