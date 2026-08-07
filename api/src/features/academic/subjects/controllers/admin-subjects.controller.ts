@@ -9,26 +9,32 @@ import {
   ParseUUIDPipe,
   Query,
 } from '@nestjs/common';
+import { ServiceResponse } from '@common/interfaces';
+import { SubjectResponseDto } from '../dtos/response';
 
 @Controller('admin/subjects')
 export class AdminSubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
-  @SuccessMessage('Subjects fetched successfully')
   @Get()
-  findAll(@Query() query: SubjectQueryDto) {
+  @SuccessMessage('Subjects fetched successfully')
+  findAll(
+    @Query() query: SubjectQueryDto,
+  ): Promise<ServiceResponse<SubjectResponseDto[]>> {
     return this.subjectsService.findAll(query);
   }
 
-  @SuccessMessage('Subject fetched successfully')
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
+  @SuccessMessage('Subject fetched successfully')
+  findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ServiceResponse<SubjectResponseDto>> {
     return this.subjectsService.findOne(id);
   }
 
   @Delete(':id')
   @SuccessMessage('Subject deleted successfully')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.subjectsService.remove(id);
   }
 }

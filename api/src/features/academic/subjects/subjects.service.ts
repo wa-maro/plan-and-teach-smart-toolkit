@@ -39,7 +39,7 @@ export class SubjectsService {
     return { data, meta };
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<ServiceResponse<SubjectResponseDto>> {
     try {
       const subject = await this.prisma.subject.findUniqueOrThrow({
         where: { id },
