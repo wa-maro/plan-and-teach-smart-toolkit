@@ -39,6 +39,30 @@ export class SubjectsService {
     return { data, meta };
   }
 
+  async findOne(id: string) {
+    try {
+      const subject = await this.prisma.subject.findUniqueOrThrow({
+        where: { id },
+        include: {
+          mediumOfInstruction: true,
+        },
+      });
+
+      return {
+        data: new SubjectResponseDto(subject, subject.mediumOfInstruction),
+      };
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      throw error;
+    }
+  }
+
   async remove(id: string): Promise<void> {
     try {
       await this.prisma.subject.delete({
@@ -48,7 +72,7 @@ export class SubjectsService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2025':
-            throw new NotFoundException(`Subject with ID ${id} not found`);
+            throw new NotFoundException('Subject not found');
         }
       }
 

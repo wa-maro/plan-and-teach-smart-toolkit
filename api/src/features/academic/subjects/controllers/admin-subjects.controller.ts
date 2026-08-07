@@ -5,8 +5,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   ParseUUIDPipe,
   Query,
@@ -20,6 +18,12 @@ export class AdminSubjectsController {
   @Get()
   findAll(@Query() query: SubjectQueryDto) {
     return this.subjectsService.findAll(query);
+  }
+
+  @SuccessMessage('Subject fetched successfully')
+  @Get(':id')
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.subjectsService.findOne(id);
   }
 
   @Delete(':id')
