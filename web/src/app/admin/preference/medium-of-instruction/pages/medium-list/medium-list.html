@@ -15,5 +15,9 @@
     </div>
   </section>
 
-  <app-medium-table [media]="media()"></app-medium-table>
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  } @else {
+    <app-medium-table [media]="media()" (deleteMedium)="onDelete($event)"></app-medium-table>
+  }
 </div>
