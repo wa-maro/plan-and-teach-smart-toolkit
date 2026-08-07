@@ -2,8 +2,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -31,7 +29,8 @@ export class AdminMediumOfInstructionsController {
     return this.mediumOfInstructionsService.findAll(query);
   }
 
-  @Get()
+  @SuccessMessage('Medium of instruction fetched successfully')
+  @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.mediumOfInstructionsService.findOne(id);
   }

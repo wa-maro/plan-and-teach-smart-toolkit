@@ -34,7 +34,29 @@ export class MediumOfInstructionsService {
     return { data };
   }
 
-  async findOne(id: string) {}
+  async findOne(id: string) {
+    try {
+      const medium = await this.prisma.mediumOfInstruction.findUniqueOrThrow({
+        where: { id },
+        include: {
+          subjects: true,
+        },
+      });
+
+      return {
+        data: new MediumOfInstructionResponseDto(medium, medium.subjects),
+      };
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('Medium of instruction not found');
+      }
+
+      throw error;
+    }
+  }
 
   async update(id: string) {}
 
