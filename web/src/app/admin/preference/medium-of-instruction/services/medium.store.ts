@@ -22,15 +22,29 @@ export class MediumStore {
   readonly loading = computed(() => this._state().loading);
 
   load(): void {
-    this.updateCurrentState({
-      loading: true,
-    });
+    this.updateCurrentState({ loading: true });
 
     this.mediumService
       .getMedia()
       .pipe(finalize(() => this.updateCurrentState({ loading: false })))
       .subscribe({
         next: ({ data }) => this.updateCurrentState({ media: data }),
+        error: (error) => console.error(error),
+      });
+  }
+
+  delete(id: string): void {
+    this.updateCurrentState({ loading: true });
+
+    this.mediumService
+      .deleteMedium(id)
+      .pipe(finalize(() => this.updateCurrentState({ loading: false })))
+      .subscribe({
+        next: () => {
+          const updatedMedia = this.media().filter((medium) => medium.id !== id);
+
+          this.updateCurrentState({ media: updatedMedia });
+        },
         error: (error) => console.error(error),
       });
   }

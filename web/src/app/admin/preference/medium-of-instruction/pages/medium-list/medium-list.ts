@@ -3,8 +3,10 @@ import { Component, inject } from '@angular/core';
 import { MediumTable } from '@preference/medium-of-instruction/components';
 import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { DeleteItemDialog } from '../../../../core/components';
 
 @Component({
   selector: 'app-medium-list',
@@ -14,6 +16,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 })
 export class MediumList {
   private readonly mediumStore = inject(MediumStore);
+  private readonly dialog = inject(MatDialog);
 
   protected readonly media = this.mediumStore.media;
 
@@ -23,5 +26,19 @@ export class MediumList {
     this.mediumStore.load();
   }
 
-  protected onDelete(medium: MediumOfInstruction) {}
+  protected onDelete(medium: MediumOfInstruction) {
+    const dialogRef = this.dialog.open(DeleteItemDialog, {
+      width: '400px',
+      data: {
+        id: medium.id,
+        name: medium.name,
+        title: 'Medium of instruction',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.mediumStore.delete(medium.id);
+    });
+  }
 }
