@@ -33,6 +33,22 @@ export class SubjectStore {
       });
   }
 
+  delete(id: string): void {
+    this.updateCurrentState({ loading: true });
+
+    this.subjectService
+      .deleteSubject(id)
+      .pipe(finalize(() => this.updateCurrentState({ loading: false })))
+      .subscribe({
+        next: () => {
+          const updatedMedia = this.subjects().filter((subject) => subject.id !== id);
+
+          this.updateCurrentState({ subjects: updatedMedia });
+        },
+        error: (error) => console.error(error),
+      });
+  }
+
   private updateCurrentState(partial: Partial<SubjectState>): void {
     this._state.update((state) => ({
       ...state,
