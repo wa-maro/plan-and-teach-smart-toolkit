@@ -4,13 +4,13 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
-  Patch,
-  Post,
   Query,
 } from '@nestjs/common';
 import { MediumOfInstructionsService } from '../medium-of-instructions.service';
 import { MediumOfInstructionQueryDto } from '../dtos/request';
 import { SuccessMessage } from '@common/decorators';
+import { ServiceResponse } from '@common/interfaces';
+import { MediumOfInstructionResponseDto } from '../dtos/response';
 
 @Controller('admin/medium-of-instructions')
 export class AdminMediumOfInstructionsController {
@@ -18,31 +18,25 @@ export class AdminMediumOfInstructionsController {
     private readonly mediumOfInstructionsService: MediumOfInstructionsService,
   ) {}
 
-  @Post()
-  create() {
-    return this.mediumOfInstructionsService.create();
-  }
-
   @Get()
   @SuccessMessage('Media of instruction fetched successfully')
-  findAll(@Query() query: MediumOfInstructionQueryDto) {
+  findAll(
+    @Query() query: MediumOfInstructionQueryDto,
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto[]>> {
     return this.mediumOfInstructionsService.findAll(query);
   }
 
-  @SuccessMessage('Medium of instruction fetched successfully')
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
+  @SuccessMessage('Medium of instruction fetched successfully')
+  findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto>> {
     return this.mediumOfInstructionsService.findOne(id);
   }
 
-  @Patch()
-  update(@Param('id', ParseUUIDPipe) id: string) {
-    return this.mediumOfInstructionsService.update(id);
-  }
-
   @Delete(':id')
-  @SuccessMessage('Media of instruction deleted successfully')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
+  @SuccessMessage('Medium of instruction deleted successfully')
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.mediumOfInstructionsService.remove(id);
   }
 }

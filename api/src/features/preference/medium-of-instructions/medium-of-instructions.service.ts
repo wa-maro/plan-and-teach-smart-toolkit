@@ -12,8 +12,6 @@ import { ServiceResponse } from '@common/interfaces';
 export class MediumOfInstructionsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create() {}
-
   async findAll(
     query: MediumOfInstructionQueryDto,
   ): Promise<ServiceResponse<MediumOfInstructionResponseDto[]>> {
@@ -34,7 +32,9 @@ export class MediumOfInstructionsService {
     return { data };
   }
 
-  async findOne(id: string) {
+  async findOne(
+    id: string,
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto>> {
     try {
       const medium = await this.prisma.mediumOfInstruction.findUniqueOrThrow({
         where: { id },
@@ -43,9 +43,9 @@ export class MediumOfInstructionsService {
         },
       });
 
-      return {
-        data: new MediumOfInstructionResponseDto(medium, medium.subjects),
-      };
+      const data = new MediumOfInstructionResponseDto(medium, medium.subjects);
+
+      return { data };
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -57,8 +57,6 @@ export class MediumOfInstructionsService {
       throw error;
     }
   }
-
-  async update(id: string) {}
 
   async remove(id: string): Promise<void> {
     try {
