@@ -1,19 +1,25 @@
-import { Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { MediumService } from '@preference/medium-of-instruction/services';
-import { MediumTable } from '@preference/medium-of-instruction/components';
+import { MediumStore } from './../../services/medium.store';
+import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
+import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
 
 @Component({
   selector: 'app-medium-list',
-  imports: [MediumTable, MatAnchor, MatIcon],
+  imports: [MatAnchor, MatIcon],
   templateUrl: './medium-list.html',
   styles: ``,
 })
 export class MediumList {
-  private readonly mediumService = inject(MediumService);
-  private readonly mediaResponse = toSignal(this.mediumService.findAll());
+  private readonly mediumStore = inject(MediumStore);
 
-  protected readonly media = computed(() => this.mediaResponse()?.data ?? []);
+  protected readonly media = this.mediumStore.media;
+
+  protected readonly loading = this.mediumStore.loading;
+
+  ngOnInit(): void {
+    this.mediumStore.load();
+  }
+
+  protected onDelete(medium: MediumOfInstruction) {}
 }
