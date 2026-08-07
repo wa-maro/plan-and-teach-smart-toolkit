@@ -1,22 +1,24 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { AppError, ErrorApiResponse } from '@shared/types/api';
 import { catchError, throwError } from 'rxjs';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
-    catchError((error) => {
-      const message = getErrorMessage(error);
+    catchError((error: HttpErrorResponse) => {
+      const apiError = error.error as Partial<ErrorApiResponse>;
 
-      console.error('HTTP Error:', {
-        status: error.status,
-        message,
-        url: error.url,
-        error,
+      const appError: AppError = {
+        statusCode: error.status,
+        message: getErrorMessage(error),
+      };
+
+      console.error('HTTP Error', {
+        http: error,
+        api: apiError,
+        app: appError,
       });
 
-      return throwError(() => ({
-        statusCode: error.status,
-        message,
-      }));
+      return throwError(() => appError);
     }),
   );
 };
