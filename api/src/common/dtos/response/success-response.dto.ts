@@ -8,7 +8,7 @@ export class SuccessResponseDto<T> implements ServiceResponse<T> {
 
   readonly message: string;
 
-  readonly data: T;
+  readonly data: T | null;
 
   readonly meta?: PaginationMetaDto;
 
@@ -17,13 +17,13 @@ export class SuccessResponseDto<T> implements ServiceResponse<T> {
   constructor(
     statusCode: number,
     message: string,
-    response: ServiceResponse<T>,
+    response?: ServiceResponse<T>,
   ) {
     this.statusCode = statusCode;
     this.message = message;
 
-    this.data = response.data;
-    this.meta = response.meta;
+    this.data = response?.data ?? null;
+    this.meta = response?.meta;
 
     this.timestamp = new Date().toISOString();
   }
