@@ -5,12 +5,12 @@ import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
-import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DeleteItemDialog } from '../../../../core/components';
 
 @Component({
   selector: 'app-medium-list',
-  imports: [MediumTable, MatAnchor, MatIcon, MatProgressBar],
+  imports: [MediumTable, MatAnchor, MatIcon, MatProgressSpinner],
   templateUrl: './medium-list.html',
   styles: ``,
 })

@@ -4,13 +4,13 @@ import { SubjectTable } from '@academic/subject/components';
 import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
 import { Subject } from '@academic/subject/models';
-import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialog } from '../../../../core/components';
 
 @Component({
   selector: 'app-subject-list',
-  imports: [SubjectTable, MatAnchor, MatIcon, MatProgressBar],
+  imports: [SubjectTable, MatAnchor, MatIcon, MatProgressSpinner],
   templateUrl: './subject-list.html',
   styles: ``,
 })
@@ -20,7 +20,7 @@ export class SubjectList {
 
   protected readonly subjects = this.subjectStore.subjects;
 
-  protected readonly loading = this.subjectStore.subjects;
+  protected readonly loading = this.subjectStore.loading;
 
   ngOnInit(): void {
     this.subjectStore.load();

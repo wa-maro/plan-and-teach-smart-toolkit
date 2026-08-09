@@ -17,12 +17,14 @@
     </div>
   </section>
 
-  @if (subjects()) {
+  @if (loading()) {
+    <div class="flex items-center justify-center">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  } @else {
     <app-subject-table
       [subjects]="subjects()"
       (deleteSubject)="onDelete($event)"
     ></app-subject-table>
-  } @else {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </div>

@@ -16,7 +16,9 @@
   </section>
 
   @if (loading()) {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <div class="flex items-center justify-center">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
   } @else {
     <app-medium-table [media]="media()" (deleteMedium)="onDelete($event)"></app-medium-table>
   }
