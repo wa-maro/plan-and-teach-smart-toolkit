@@ -1,5 +1,5 @@
 import { MediumStore } from './../../services/medium.store';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MediumTable } from '@preference/medium-of-instruction/components';
 import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DeleteItemDialog } from '../../../../core/components';
+import { SelectedRow } from '@shared/components';
 
 @Component({
   selector: 'app-medium-list',
@@ -18,6 +19,8 @@ export class MediumList {
   private readonly mediumStore = inject(MediumStore);
   private readonly dialog = inject(MatDialog);
 
+  private selectedMedium = signal<MediumOfInstruction | null>(null);
+
   protected readonly media = this.mediumStore.media;
 
   protected readonly loading = this.mediumStore.loading;
@@ -26,7 +29,21 @@ export class MediumList {
     this.mediumStore.load();
   }
 
-  protected onDelete(medium: MediumOfInstruction) {
+  protected getSelectedMedium(data: SelectedRow<MediumOfInstruction>) {
+    this.selectedMedium.set(data.row);
+
+    const selected = this.selectedMedium();
+
+    if (data.action === 'show' && selected) {
+      //
+    }
+
+    if (data.action === 'delete' && selected) {
+      this.deleteMedium(selected);
+    }
+  }
+
+  private deleteMedium(medium: MediumOfInstruction) {
     const dialogRef = this.dialog.open(DeleteItemDialog, {
       width: '400px',
       data: {

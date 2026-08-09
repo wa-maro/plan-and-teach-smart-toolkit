@@ -20,6 +20,9 @@
       <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   } @else {
-    <app-medium-table [media]="media()" (deleteMedium)="onDelete($event)"></app-medium-table>
+    <app-medium-table
+      [media]="media()"
+      (selectedMedium)="getSelectedMedium($event)"
+    ></app-medium-table>
   }
 </div>
