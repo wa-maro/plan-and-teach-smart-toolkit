@@ -16,7 +16,8 @@
     "paths": {
       "@shared/*": ["./src/app/shared/*"],
       "@preference/*": ["./src/app/admin/preference/*"],
-      "@academic/*": ["./src/app/admin/academic/*"]
+      "@academic/*": ["./src/app/admin/academic/*"],
+      "@core/*": ["./src/app/admin/core/*"]
     }
   },
   "angularCompilerOptions": {

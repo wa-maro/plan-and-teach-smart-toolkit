@@ -1,17 +1,17 @@
 import { MediumStore } from './../../services/medium.store';
-import { Component, inject, signal } from '@angular/core';
-import { MediumTable } from '@preference/medium-of-instruction/components';
+import { Component, inject, signal, viewChild } from '@angular/core';
+import { MediumTable, MediumDrawer } from '@preference/medium-of-instruction/components';
 import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { DeleteItemDialog } from '../../../../core/components';
+import { DeleteItemDialog } from '@core/components';
 import { SelectedRow } from '@shared/components';
 
 @Component({
   selector: 'app-medium-list',
-  imports: [MediumTable, MatAnchor, MatIcon, MatProgressSpinner],
+  imports: [MediumTable, MatAnchor, MatIcon, MatProgressSpinner, MediumDrawer],
   templateUrl: './medium-list.html',
   styles: ``,
 })
@@ -19,7 +19,9 @@ export class MediumList {
   private readonly mediumStore = inject(MediumStore);
   private readonly dialog = inject(MatDialog);
 
-  private selectedMedium = signal<MediumOfInstruction | null>(null);
+  protected drawerOpened = signal(false);
+
+  private readonly mediumDrawer = viewChild.required(MediumDrawer);
 
   protected readonly media = this.mediumStore.media;
 
@@ -30,16 +32,13 @@ export class MediumList {
   }
 
   protected getSelectedMedium(data: SelectedRow<MediumOfInstruction>) {
-    this.selectedMedium.set(data.row);
-
-    const selected = this.selectedMedium();
-
-    if (data.action === 'show' && selected) {
-      //
+    if (data.action === 'show') {
+      this.mediumDrawer().openShow(data.row);
+      return;
     }
 
-    if (data.action === 'delete' && selected) {
-      this.deleteMedium(selected);
+    if (data.action === 'delete') {
+      this.deleteMedium(data.row);
     }
   }
 
