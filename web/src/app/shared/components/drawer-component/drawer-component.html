@@ -1,0 +1,9 @@
+<mat-drawer-container class="min-h-screen">
+  <mat-drawer #drawer mode="over" position="end" [(opened)]="opened">
+    <ng-content select="[drawer-side-panel]" />
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <ng-content select="[drawer-main-content]" />
+  </mat-drawer-content>
+</mat-drawer-container>
