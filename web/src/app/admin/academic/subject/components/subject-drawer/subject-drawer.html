@@ -1,0 +1,19 @@
+<app-drawer-component [(opened)]="opened">
+  <div drawer-side-panel>
+    @switch (mode()) {
+      @case ('create') {
+        <p>Create Subject Form</p>
+      }
+
+      @case ('show') {
+        @if (selectedSubject(); as subject) {
+          <p>Edit Form for {{ subject.name }}</p>
+        }
+      }
+    }
+  </div>
+
+  <div drawer-main-content>
+    <ng-content />
+  </div>
+</app-drawer-component>
