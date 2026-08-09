@@ -1,17 +1,17 @@
 import { SubjectStore } from '@academic/subject/services';
-import { Component, inject, signal } from '@angular/core';
-import { SubjectTable } from '@academic/subject/components';
+import { Component, inject, signal, viewChild } from '@angular/core';
+import { SubjectTable, SubjectDrawer } from '@academic/subject/components';
 import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
 import { Subject } from '@academic/subject/models';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteItemDialog } from '../../../../core/components';
+import { DeleteItemDialog } from '@core/components';
 import { SelectedRow } from '@shared/components';
 
 @Component({
   selector: 'app-subject-list',
-  imports: [SubjectTable, MatAnchor, MatIcon, MatProgressSpinner],
+  imports: [SubjectTable, MatAnchor, MatIcon, MatProgressSpinner, SubjectDrawer],
   templateUrl: './subject-list.html',
   styles: ``,
 })
@@ -19,7 +19,9 @@ export class SubjectList {
   private readonly subjectStore = inject(SubjectStore);
   private readonly dialog = inject(MatDialog);
 
-  private selectedSubject = signal<Subject | null>(null);
+  protected drawerOpened = signal(false);
+
+  private readonly subjectDrawer = viewChild.required(SubjectDrawer);
 
   protected readonly subjects = this.subjectStore.subjects;
 
@@ -30,16 +32,13 @@ export class SubjectList {
   }
 
   protected getSelectedSubject(data: SelectedRow<Subject>) {
-    this.selectedSubject.set(data.row);
-
-    const selected = this.selectedSubject();
-
-    if (data.action === 'show' && selected) {
-      //
+    if (data.action === 'show') {
+      this.subjectDrawer().openShow(data.row);
+      return;
     }
 
-    if (data.action === 'delete' && selected) {
-      this.deleteSubject(selected);
+    if (data.action === 'delete') {
+      this.deleteSubject(data.row);
     }
   }
 

@@ -1,30 +1,37 @@
-<div class="space-y-6">
-  <section class="flex items-center justify-between gap-4">
-    <div class="flex-1 space-y-1">
-      <h1 class="text-xl md:text-2xl font-semibold tracking-tight">Subjects</h1>
+<app-subject-drawer [(opened)]="drawerOpened" #subjectDrawer>
+  <div class="space-y-6">
+    <section class="flex items-center justify-between gap-4">
+      <div class="flex-1 space-y-1">
+        <h1 class="text-xl md:text-2xl font-semibold tracking-tight">Subjects</h1>
 
-      <p class="text-sm text-gray-600">
-        A list of all subjects available in the current educational curriculum.
-      </p>
-    </div>
+        <p class="text-sm text-gray-600">
+          A list of all subjects available in the current educational curriculum.
+        </p>
+      </div>
 
-    <div>
-      <button mat-flat-button color="primary" class="min-w-0! px-3! sm:px-4! rounded-full">
-        <mat-icon class="m-0!">add</mat-icon>
+      <div>
+        <button
+          mat-flat-button
+          color="primary"
+          class="min-w-0! px-3! sm:px-4! rounded-full"
+          (click)="subjectDrawer.openCreate()"
+        >
+          <mat-icon class="m-0!">add</mat-icon>
 
-        <span class="hidden sm:inline sm:ml-2">Add Subject</span>
-      </button>
-    </div>
-  </section>
+          <span class="hidden sm:inline sm:ml-2">Add Subject</span>
+        </button>
+      </div>
+    </section>
 
-  @if (loading()) {
-    <div class="flex items-center justify-center">
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    </div>
-  } @else {
-    <app-subject-table
-      [subjects]="subjects()"
-      (selectedSubject)="getSelectedSubject($event)"
-    ></app-subject-table>
-  }
-</div>
+    @if (loading()) {
+      <div class="flex items-center justify-center">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+    } @else {
+      <app-subject-table
+        [subjects]="subjects()"
+        (selectedSubject)="getSelectedSubject($event)"
+      ></app-subject-table>
+    }
+  </div>
+</app-subject-drawer>
