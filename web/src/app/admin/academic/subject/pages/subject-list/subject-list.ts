@@ -1,5 +1,5 @@
 import { SubjectStore } from '@academic/subject/services';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SubjectTable } from '@academic/subject/components';
 import { MatIcon } from '@angular/material/icon';
 import { MatAnchor } from '@angular/material/button';
@@ -7,6 +7,7 @@ import { Subject } from '@academic/subject/models';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialog } from '../../../../core/components';
+import { SelectedRow } from '@shared/components';
 
 @Component({
   selector: 'app-subject-list',
@@ -18,6 +19,8 @@ export class SubjectList {
   private readonly subjectStore = inject(SubjectStore);
   private readonly dialog = inject(MatDialog);
 
+  private selectedSubject = signal<Subject | null>(null);
+
   protected readonly subjects = this.subjectStore.subjects;
 
   protected readonly loading = this.subjectStore.loading;
@@ -26,7 +29,21 @@ export class SubjectList {
     this.subjectStore.load();
   }
 
-  protected onDelete(subject: Subject) {
+  protected getSelectedSubject(data: SelectedRow<Subject>) {
+    this.selectedSubject.set(data.row);
+
+    const selected = this.selectedSubject();
+
+    if (data.action === 'show' && selected) {
+      //
+    }
+
+    if (data.action === 'delete' && selected) {
+      this.deleteSubject(selected);
+    }
+  }
+
+  private deleteSubject(subject: Subject) {
     const dialogRef = this.dialog.open(DeleteItemDialog, {
       width: '400px',
       data: {

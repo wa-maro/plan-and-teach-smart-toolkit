@@ -2,27 +2,21 @@ import { Subject } from '@academic/subject/models';
 import { DatePipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { DeleteItemAction } from '../../../../core/components';
+import { SelectedRow, TableComponent } from '@shared/components';
 
 @Component({
   selector: 'app-subject-table',
-  imports: [MatTableModule, DatePipe, DeleteItemAction],
+  imports: [MatTableModule, DatePipe, TableComponent],
   templateUrl: './subject-table.html',
   styles: ``,
 })
 export class SubjectTable {
   readonly subjects = input.required<Subject[]>();
-  protected readonly displayedColumns = [
-    'index',
-    'name',
-    'mediumOfInstruction',
-    'updatedAt',
-    'actions',
-  ];
+  protected readonly displayedColumns = ['name', 'mediumOfInstruction', 'updatedAt'];
 
-  protected readonly deleteSubject = output<Subject>();
+  protected readonly selectedSubject = output<SelectedRow<Subject>>();
 
-  protected onDelete(item: Subject) {
-    this.deleteSubject.emit(item);
+  protected onSelect(data: SelectedRow<Subject>) {
+    this.selectedSubject.emit(data);
   }
 }

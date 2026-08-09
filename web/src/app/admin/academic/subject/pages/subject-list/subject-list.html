@@ -24,7 +24,7 @@
   } @else {
     <app-subject-table
       [subjects]="subjects()"
-      (deleteSubject)="onDelete($event)"
+      (selectedSubject)="getSelectedSubject($event)"
     ></app-subject-table>
   }
 </div>
