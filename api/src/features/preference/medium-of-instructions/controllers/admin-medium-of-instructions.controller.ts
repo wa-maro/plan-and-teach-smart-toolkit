@@ -5,11 +5,16 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
 import { MediumOfInstructionsService } from '../medium-of-instructions.service';
-import { CreateMediumDto, MediumOfInstructionQueryDto } from '../dtos/request';
+import {
+  CreateMediumDto,
+  MediumOfInstructionQueryDto,
+  UpdateMediumDto,
+} from '../dtos/request';
 import { SuccessMessage } from '@common/decorators';
 import { ServiceResponse } from '@common/interfaces';
 import { MediumOfInstructionResponseDto } from '../dtos/response';
@@ -42,6 +47,15 @@ export class AdminMediumOfInstructionsController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ServiceResponse<MediumOfInstructionResponseDto>> {
     return this.mediumOfInstructionsService.findOne(id);
+  }
+
+  @Patch(':id')
+  @SuccessMessage('Medium of instruction updated successfully')
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateDto: UpdateMediumDto,
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto>> {
+    return this.mediumOfInstructionsService.update(id, updateDto);
   }
 
   @Delete(':id')
