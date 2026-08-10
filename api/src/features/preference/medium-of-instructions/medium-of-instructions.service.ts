@@ -94,9 +94,7 @@ export class MediumOfInstructionsService {
       const medium = await this.prisma.mediumOfInstruction.update({
         where: { id },
         data: dto,
-        include: {
-          subjects: true,
-        },
+        include: { subjects: true },
       });
 
       const data = new MediumOfInstructionResponseDto(medium, medium.subjects);
