@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, OnInit } from '@angular/core';
-import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
+import { MediumOfInstruction, UpdateMediumDto } from '@preference/medium-of-instruction/models';
 import { MatDivider } from '@angular/material/list';
 import { DatePipe } from '@angular/common';
 import { MediumStore } from '@preference/medium-of-instruction/services';
@@ -36,5 +36,9 @@ export class MediumDetail implements OnInit {
 
   ngOnInit(): void {
     this.mediumStore.detail(this.selectedMedium().id);
+  }
+
+  update(dto: UpdateMediumDto) {
+    this.mediumStore.update(this.medium().id, dto);
   }
 }

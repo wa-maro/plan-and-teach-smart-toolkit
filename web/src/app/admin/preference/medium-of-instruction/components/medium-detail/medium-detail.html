@@ -8,7 +8,7 @@
   @if (!loading()) {
     <div class="flex-1 overflow-y-auto space-y-6 p-4">
       <div>
-        <app-medium-form [medium]="medium()"> </app-medium-form>
+        <app-medium-form [medium]="medium()" (submitted)="update($event)"> </app-medium-form>
       </div>
 
       <div>
