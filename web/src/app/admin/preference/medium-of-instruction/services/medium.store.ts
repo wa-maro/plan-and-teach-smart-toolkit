@@ -1,6 +1,6 @@
 import { computed, inject, Service, signal } from '@angular/core';
 import { MediumService } from './medium.service';
-import { MediumOfInstruction } from '../models';
+import { CreateMediumDto, MediumOfInstruction } from '../models';
 import { finalize } from 'rxjs';
 import { ToastService } from '@shared/components/toast/service';
 
@@ -30,6 +30,22 @@ export class MediumStore {
   readonly detailMedium = computed(() => this._state().detailMedium);
 
   readonly detailLoading = computed(() => this._state().detailLoading);
+
+  create(dto: CreateMediumDto): void {
+    this.updateCurrentState({ loading: true });
+
+    this.mediumService
+      .createMedium(dto)
+      .pipe(finalize(() => this.updateCurrentState({ loading: false })))
+      .subscribe({
+        next: (data) => {
+          this.updateCurrentState({ media: [...this.media(), data] });
+
+          this.toastService.success('Medium of instruction created successfully.');
+        },
+        error: () => {},
+      });
+  }
 
   load(): void {
     this.updateCurrentState({ loading: true });
