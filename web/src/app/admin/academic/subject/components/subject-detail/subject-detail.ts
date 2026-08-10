@@ -33,6 +33,20 @@ export class SubjectDetail implements OnInit {
   }
 
   update(dto: UpdateSubjectDto) {
-    this.subjectStore.update(this.subject().id, dto);
+    const changes = this.getChangedFields(dto);
+
+    if (Object.keys(changes).length > 0) {
+      this.subjectStore.update(this.subject().id, changes);
+    }
+  }
+
+  private getChangedFields(dto: UpdateSubjectDto): UpdateSubjectDto {
+    const current = this.subject();
+
+    return Object.fromEntries(
+      Object.entries(dto).filter(
+        ([key, value]) => value !== undefined && value !== current[key as keyof typeof current],
+      ),
+    ) as UpdateSubjectDto;
   }
 }

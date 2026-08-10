@@ -39,6 +39,20 @@ export class MediumDetail implements OnInit {
   }
 
   update(dto: UpdateMediumDto) {
-    this.mediumStore.update(this.medium().id, dto);
+    const changes = this.getChangedFields(dto);
+
+    if (Object.keys(changes).length > 0) {
+      this.mediumStore.update(this.medium().id, changes);
+    }
+  }
+
+  private getChangedFields(dto: UpdateMediumDto): UpdateMediumDto {
+    const current = this.medium();
+
+    return Object.fromEntries(
+      Object.entries(dto).filter(
+        ([key, value]) => value !== undefined && value !== current[key as keyof typeof current],
+      ),
+    ) as UpdateMediumDto;
   }
 }
