@@ -7,7 +7,11 @@
 
   <div class="flex-1 overflow-y-auto space-y-6 p-4">
     <div>
-      <app-subject-form [subject]="subject()" [mediaOptions]="mediaOptions()" />
+      <app-subject-form
+        [subject]="subject()"
+        [mediaOptions]="mediaOptions()"
+        (submitted)="update($event)"
+      />
     </div>
 
     <div>

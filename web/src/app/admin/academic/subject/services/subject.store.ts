@@ -3,6 +3,7 @@ import { SubjectService } from './subject.service';
 import { CreateSubjectDto, Subject } from '../models';
 import { finalize } from 'rxjs';
 import { ToastService } from '@shared/components/toast/service';
+import { UpdateMediumDto } from '@preference/medium-of-instruction/models';
 
 interface SubjectState {
   subjects: Subject[];
@@ -70,6 +71,32 @@ export class SubjectStore {
       .pipe(finalize(() => this.updateCurrentState({ detailLoading: false })))
       .subscribe({
         next: (data) => this.updateCurrentState({ detailSubject: data }),
+        error: () => {},
+      });
+  }
+
+  update(id: string, dto: UpdateMediumDto) {
+    this.updateCurrentState({
+      detailLoading: true,
+      loading: true,
+    });
+
+    this.subjectService
+      .updateSubject(id, dto)
+      .pipe(finalize(() => this.updateCurrentState({ detailLoading: false, loading: false })))
+      .subscribe({
+        next: (data) => {
+          const updatedSubject = this.subjects().map((subject) =>
+            subject.id === id ? data : subject,
+          );
+
+          this.updateCurrentState({
+            detailSubject: data,
+            subjects: updatedSubject,
+          });
+
+          this.toastService.success('Subject updated successfully.');
+        },
         error: () => {},
       });
   }

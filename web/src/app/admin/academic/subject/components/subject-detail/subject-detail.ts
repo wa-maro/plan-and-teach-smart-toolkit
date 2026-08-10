@@ -1,4 +1,4 @@
-import { Subject } from '@academic/subject/models';
+import { Subject, UpdateSubjectDto } from '@academic/subject/models';
 import { Component, computed, inject, input, OnInit } from '@angular/core';
 import { SubjectForm } from '../subject-form/subject-form';
 import { MatDivider } from '@angular/material/divider';
@@ -30,5 +30,9 @@ export class SubjectDetail implements OnInit {
   ngOnInit(): void {
     this.mediumStore.load();
     this.subjectStore.detail(this.selectedSubject().id);
+  }
+
+  update(dto: UpdateSubjectDto) {
+    this.subjectStore.update(this.subject().id, dto);
   }
 }
