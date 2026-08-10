@@ -1,5 +1,9 @@
 import { SuccessMessage } from '@common/decorators';
-import { CreateSubjectDto, SubjectQueryDto } from '../dtos/request';
+import {
+  CreateSubjectDto,
+  SubjectQueryDto,
+  UpdateSubjectDto,
+} from '../dtos/request';
 import { SubjectsService } from '../subjects.service';
 import {
   Body,
@@ -8,6 +12,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -40,6 +45,15 @@ export class AdminSubjectsController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ServiceResponse<SubjectResponseDto>> {
     return this.subjectsService.findOne(id);
+  }
+
+  @Patch(':id')
+  @SuccessMessage('Subject updated successfully')
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateDto: UpdateSubjectDto,
+  ): Promise<ServiceResponse<SubjectResponseDto>> {
+    return this.subjectsService.update(id, updateDto);
   }
 
   @Delete(':id')

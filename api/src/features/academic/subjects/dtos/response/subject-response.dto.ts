@@ -4,6 +4,7 @@ import { MediumOfInstructionMinimalResponseDto } from '@preference/medium-of-ins
 
 export class SubjectResponseDto extends SubjectMinimalResponseDto {
   readonly slug: string;
+  readonly abbreviation: string;
   readonly createdAt: string;
   readonly updatedAt: string;
 
@@ -12,6 +13,7 @@ export class SubjectResponseDto extends SubjectMinimalResponseDto {
   constructor(subject: Subject, medium: MediumOfInstruction) {
     super(subject);
 
+    this.abbreviation = subject.abbreviation;
     this.slug = subject.slug;
     this.mediumOfInstruction = new MediumOfInstructionMinimalResponseDto(
       medium,

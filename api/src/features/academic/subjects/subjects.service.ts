@@ -4,7 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Prisma, PrismaService } from '@prisma';
-import { CreateSubjectDto, SubjectQueryDto } from './dtos/request';
+import {
+  CreateSubjectDto,
+  SubjectQueryDto,
+  UpdateSubjectDto,
+} from './dtos/request';
 import { SubjectResponseDto } from './dtos/response';
 import { PaginationMetaDto } from '@common/dtos/response';
 import { ServiceResponse } from '@common/interfaces';
@@ -92,15 +96,65 @@ export class SubjectsService {
         },
       });
 
-      return {
-        data: new SubjectResponseDto(subject, subject.mediumOfInstruction),
-      };
+      const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
+
+      return { data };
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
         throw new NotFoundException('Subject not found');
+      }
+
+      throw error;
+    }
+  }
+
+  async update(id: string, dto: UpdateSubjectDto) {
+    const { name, abbreviation, mediumOfInstructionId } = dto;
+
+    const updateData: Prisma.SubjectUpdateInput = {
+      ...(name !== undefined && {
+        name,
+        slug: slugify(name, {
+          lower: true,
+          strict: true,
+        }),
+      }),
+      ...(abbreviation !== undefined && { abbreviation }),
+      ...(mediumOfInstructionId !== undefined && {
+        mediumOfInstruction: {
+          connect: {
+            id: mediumOfInstructionId,
+          },
+        },
+      }),
+    };
+
+    try {
+      const subject = await this.prisma.subject.update({
+        where: { id },
+        data: updateData,
+        include: {
+          mediumOfInstruction: true,
+        },
+      });
+
+      const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
+
+      return { data };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException('Subject or medium not found');
+
+          case 'P2002':
+            throw new ConflictException(
+              'A subject with the provided value already exists',
+            );
+        }
       }
 
       throw error;
