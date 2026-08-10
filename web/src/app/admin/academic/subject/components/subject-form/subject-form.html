@@ -1,0 +1,47 @@
+<form class="space-y-4" [formGroup]="form">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Name</mat-label>
+
+    <input matInput type="text" formControlName="name" placeholder="Subject name" />
+
+    <mat-hint> The name of the subject. </mat-hint>
+
+    @if (form.controls.name.hasError('required')) {
+      <mat-error> Name is required. </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Abbreviation</mat-label>
+
+    <input matInput type="text" formControlName="abbreviation" placeholder="Subject abbreviation" />
+
+    <mat-hint> The name of the subject. </mat-hint>
+
+    @if (form.controls.abbreviation.hasError('required')) {
+      <mat-error>Abbreviation is required.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Medium of Instruction</mat-label>
+
+    <mat-select formControlName="mediumOfInstructionId">
+      @for (medium of mediaOptions(); track medium.id) {
+        <mat-option [value]="medium.id">
+          {{ medium.name }}
+        </mat-option>
+      }
+    </mat-select>
+
+    <mat-hint> The medium of instruction used to teach the subject. </mat-hint>
+
+    @if (form.controls.mediumOfInstructionId.hasError('required')) {
+      <mat-error>Medium of instruction is required.</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="flex items-center justify-end gap-2">
+    <button mat-flat-button type="submit">Save</button>
+  </div>
+</form>
