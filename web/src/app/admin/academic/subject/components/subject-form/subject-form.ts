@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject } from '@academic/subject/models';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,6 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
 import { MatSelectModule } from '@angular/material/select';
+
+export interface SubjectFormValue {
+  name: string;
+  abbreviation: string;
+  mediumOfInstructionId: string;
+}
 
 @Component({
   selector: 'app-subject-form',
@@ -22,6 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
 export class SubjectForm {
   readonly subject = input<Subject | null>(null);
   readonly mediaOptions = input<MediumOfInstruction[]>([]);
+
+  readonly submitted = output<SubjectFormValue>();
 
   protected readonly form = new FormGroup({
     name: new FormControl('', {
@@ -52,8 +60,17 @@ export class SubjectForm {
       this.form.patchValue({
         name: subject.name,
         abbreviation: subject.abbreviation,
-        mediumOfInstructionId: subject.mediumOfInstruction?.id,
+        mediumOfInstructionId: subject.mediumOfInstruction?.id ?? '',
       });
     });
+  }
+
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.submitted.emit(this.form.getRawValue());
   }
 }
