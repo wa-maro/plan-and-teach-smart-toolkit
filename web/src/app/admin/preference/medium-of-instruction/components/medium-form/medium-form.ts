@@ -5,6 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
+export interface MediumFormValue {
+  name: string;
+  code: string;
+}
+
 @Component({
   selector: 'app-medium-form',
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
@@ -13,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class MediumForm {
   readonly medium = input<MediumOfInstruction | null>(null);
+  readonly submitted = output<MediumFormValue>();
 
   protected readonly form = new FormGroup({
     name: new FormControl('', {
@@ -40,5 +46,14 @@ export class MediumForm {
         code: medium.code,
       });
     });
+  }
+
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.submitted.emit(this.form.getRawValue());
   }
 }
