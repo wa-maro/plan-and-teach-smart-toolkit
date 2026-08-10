@@ -1,0 +1,29 @@
+<form class="space-y-4" [formGroup]="form">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Name</mat-label>
+
+    <input matInput type="text" formControlName="name" placeholder="Language name" />
+
+    <mat-hint> The name of the medium of instruction. </mat-hint>
+
+    @if (form.controls.name.hasError('required')) {
+      <mat-error> Name is required. </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Code</mat-label>
+
+    <input matInput type="text" formControlName="code" placeholder="Language code" />
+
+    <mat-hint> The language code. </mat-hint>
+
+    @if (form.controls.code.hasError('required')) {
+      <mat-error> Code is required. </mat-error>
+    }
+  </mat-form-field>
+
+  <div class="flex items-center justify-end gap-2">
+    <button mat-flat-button type="submit">Save</button>
+  </div>
+</form>
