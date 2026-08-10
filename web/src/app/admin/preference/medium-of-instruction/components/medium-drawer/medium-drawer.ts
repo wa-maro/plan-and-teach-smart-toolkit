@@ -17,6 +17,13 @@ export class MediumDrawer {
 
   protected readonly selectedMedium = signal<MediumOfInstruction | null>(null);
 
+  onDrawerStateChange(opened: boolean): void {
+    if (!opened) {
+      this.mode.set(null);
+      this.selectedMedium.set(null);
+    }
+  }
+
   openCreate() {
     this.selectedMedium.set(null);
     this.mode.set('create');
