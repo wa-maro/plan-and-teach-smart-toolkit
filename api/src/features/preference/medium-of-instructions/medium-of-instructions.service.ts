@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { MediumOfInstructionQueryDto } from './dtos/request';
+import { CreateMediumDto, MediumOfInstructionQueryDto } from './dtos/request';
 import { MediumOfInstructionResponseDto } from './dtos/response';
 import { Prisma, PrismaService } from '@prisma';
 import { ServiceResponse } from '@common/interfaces';
@@ -11,6 +11,30 @@ import { ServiceResponse } from '@common/interfaces';
 @Injectable()
 export class MediumOfInstructionsService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async create(
+    dto: CreateMediumDto,
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto>> {
+    try {
+      const medium = await this.prisma.mediumOfInstruction.create({
+        data: dto,
+      });
+
+      const data = new MediumOfInstructionResponseDto(medium);
+
+      return { data };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException(
+            'A medium with the provided value already exists',
+          );
+        }
+      }
+
+      throw error;
+    }
+  }
 
   async findAll(
     query: MediumOfInstructionQueryDto,

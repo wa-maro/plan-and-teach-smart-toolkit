@@ -1,13 +1,15 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   Param,
   ParseUUIDPipe,
+  Post,
   Query,
 } from '@nestjs/common';
 import { MediumOfInstructionsService } from '../medium-of-instructions.service';
-import { MediumOfInstructionQueryDto } from '../dtos/request';
+import { CreateMediumDto, MediumOfInstructionQueryDto } from '../dtos/request';
 import { SuccessMessage } from '@common/decorators';
 import { ServiceResponse } from '@common/interfaces';
 import { MediumOfInstructionResponseDto } from '../dtos/response';
@@ -17,6 +19,14 @@ export class AdminMediumOfInstructionsController {
   constructor(
     private readonly mediumOfInstructionsService: MediumOfInstructionsService,
   ) {}
+
+  @Post()
+  @SuccessMessage('Medium of instruction created successfully')
+  create(
+    @Body() createDto: CreateMediumDto,
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto>> {
+    return this.mediumOfInstructionsService.create(createDto);
+  }
 
   @Get()
   @SuccessMessage('Media of instruction fetched successfully')
