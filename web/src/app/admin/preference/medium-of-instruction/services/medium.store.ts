@@ -7,6 +7,8 @@ import { ToastService } from '@shared/components/toast/service';
 interface MediumState {
   media: MediumOfInstruction[];
   loading: boolean;
+  detailMedium: MediumOfInstruction | null;
+  detailLoading: boolean;
 }
 
 @Service()
@@ -17,11 +19,17 @@ export class MediumStore {
   private readonly _state = signal<MediumState>({
     media: [],
     loading: false,
+    detailMedium: null,
+    detailLoading: false,
   });
 
   readonly media = computed(() => this._state().media);
 
   readonly loading = computed(() => this._state().loading);
+
+  readonly detailMedium = computed(() => this._state().detailMedium);
+
+  readonly detailLoading = computed(() => this._state().detailLoading);
 
   load(): void {
     this.updateCurrentState({ loading: true });
@@ -31,6 +39,21 @@ export class MediumStore {
       .pipe(finalize(() => this.updateCurrentState({ loading: false })))
       .subscribe({
         next: ({ data }) => this.updateCurrentState({ media: data }),
+        error: () => {},
+      });
+  }
+
+  detail(id: string): void {
+    this.updateCurrentState({
+      detailMedium: null,
+      detailLoading: true,
+    });
+
+    this.mediumService
+      .getMedium(id)
+      .pipe(finalize(() => this.updateCurrentState({ detailLoading: false })))
+      .subscribe({
+        next: (data) => this.updateCurrentState({ detailMedium: data }),
         error: () => {},
       });
   }
