@@ -1,0 +1,11 @@
+<section class="space-y-4 p-3">
+  <div class="space-y-1 px-4">
+    <h1 class="text-lg font-semibold tracking-tight md:text-xl">Create Subject</h1>
+
+    <p class="text-sm text-gray-600">Add a new curriculum subject.</p>
+  </div>
+
+  <div class="p-4">
+    <app-subject-form (submitted)="create($event)" [mediaOptions]="mediaOptions()" />
+  </div>
+</section>
