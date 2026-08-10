@@ -3,7 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateMediumDto, MediumOfInstructionQueryDto } from './dtos/request';
+import {
+  CreateMediumDto,
+  MediumOfInstructionQueryDto,
+  UpdateMediumDto,
+} from './dtos/request';
 import { MediumOfInstructionResponseDto } from './dtos/response';
 import { Prisma, PrismaService } from '@prisma';
 import { ServiceResponse } from '@common/interfaces';
@@ -76,6 +80,39 @@ export class MediumOfInstructionsService {
         error.code === 'P2025'
       ) {
         throw new NotFoundException('Medium of instruction not found');
+      }
+
+      throw error;
+    }
+  }
+
+  async update(
+    id: string,
+    dto: UpdateMediumDto,
+  ): Promise<ServiceResponse<MediumOfInstructionResponseDto>> {
+    try {
+      const medium = await this.prisma.mediumOfInstruction.update({
+        where: { id },
+        data: dto,
+        include: {
+          subjects: true,
+        },
+      });
+
+      const data = new MediumOfInstructionResponseDto(medium, medium.subjects);
+
+      return { data };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException('Medium of instruction not found');
+
+          case 'P2002':
+            throw new ConflictException(
+              'A medium with the provided value already exists',
+            );
+        }
       }
 
       throw error;
