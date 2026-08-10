@@ -1,6 +1,6 @@
 import { computed, inject, Service, signal } from '@angular/core';
 import { SubjectService } from './subject.service';
-import { Subject } from '../models';
+import { CreateSubjectDto, Subject } from '../models';
 import { finalize } from 'rxjs';
 import { ToastService } from '@shared/components/toast/service';
 
@@ -30,6 +30,22 @@ export class SubjectStore {
   readonly detailSubject = computed(() => this._state().detailSubject);
 
   readonly detailLoading = computed(() => this._state().detailLoading);
+
+  create(dto: CreateSubjectDto): void {
+    this.updateCurrentState({ loading: true });
+
+    this.subjectService
+      .createSubject(dto)
+      .pipe(finalize(() => this.updateCurrentState({ loading: false })))
+      .subscribe({
+        next: (data) => {
+          this.updateCurrentState({ subjects: [...this.subjects(), data] });
+
+          this.toastService.success('Subject created successfully.');
+        },
+        error: () => {},
+      });
+  }
 
   load(): void {
     this.updateCurrentState({ loading: true });
