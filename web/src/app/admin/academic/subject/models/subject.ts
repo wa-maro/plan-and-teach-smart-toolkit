@@ -8,7 +8,7 @@ export interface SubjectMinimal {
 export interface Subject extends SubjectMinimal {
   slug: string;
   abbreviation: string;
-  mediumOfInstruction: MediumOfInstructionMinimal;
+  mediumOfInstruction?: MediumOfInstructionMinimal;
   createdAt: Date;
   updatedAt: Date;
 }
