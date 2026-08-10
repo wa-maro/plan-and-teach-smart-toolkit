@@ -17,6 +17,13 @@ export class SubjectDrawer {
 
   protected readonly selectedSubject = signal<Subject | null>(null);
 
+  onDrawerStateChange(opened: boolean): void {
+    if (!opened) {
+      this.mode.set(null);
+      this.selectedSubject.set(null);
+    }
+  }
+
   openCreate() {
     this.selectedSubject.set(null);
     this.mode.set('create');

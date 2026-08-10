@@ -1,4 +1,4 @@
-<app-drawer-component [(opened)]="opened">
+<app-drawer-component [(opened)]="opened" (openedChange)="onDrawerStateChange($event)">
   <div drawer-side-panel>
     @switch (mode()) {
       @case ('create') {
