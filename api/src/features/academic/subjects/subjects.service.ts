@@ -1,13 +1,57 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma, PrismaService } from '@prisma';
-import { SubjectQueryDto } from './dtos/request';
+import { CreateSubjectDto, SubjectQueryDto } from './dtos/request';
 import { SubjectResponseDto } from './dtos/response';
 import { PaginationMetaDto } from '@common/dtos/response';
 import { ServiceResponse } from '@common/interfaces';
+import slugify from 'slugify';
 
 @Injectable()
 export class SubjectsService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async create(
+    dto: CreateSubjectDto,
+  ): Promise<ServiceResponse<SubjectResponseDto>> {
+    const { name, abbreviation, mediumOfInstructionId } = dto;
+
+    const slug = slugify(name, {
+      lower: true,
+      strict: true,
+    });
+
+    try {
+      const subject = await this.prisma.subject.create({
+        data: {
+          name,
+          abbreviation,
+          mediumOfInstructionId,
+          slug,
+        },
+        include: {
+          mediumOfInstruction: true,
+        },
+      });
+
+      const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
+
+      return { data };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException(
+            'A subject with the provided value already exists',
+          );
+        }
+      }
+
+      throw error;
+    }
+  }
 
   async findAll(
     query: SubjectQueryDto,

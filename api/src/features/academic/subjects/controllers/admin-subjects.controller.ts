@@ -1,12 +1,14 @@
 import { SuccessMessage } from '@common/decorators';
-import { SubjectQueryDto } from '../dtos/request';
+import { CreateSubjectDto, SubjectQueryDto } from '../dtos/request';
 import { SubjectsService } from '../subjects.service';
 import {
+  Body,
   Controller,
   Delete,
   Get,
   Param,
   ParseUUIDPipe,
+  Post,
   Query,
 } from '@nestjs/common';
 import { ServiceResponse } from '@common/interfaces';
@@ -15,6 +17,14 @@ import { SubjectResponseDto } from '../dtos/response';
 @Controller('admin/subjects')
 export class AdminSubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
+
+  @Post()
+  @SuccessMessage('Subject created successfully')
+  create(
+    @Body() createDto: CreateSubjectDto,
+  ): Promise<ServiceResponse<SubjectResponseDto>> {
+    return this.subjectsService.create(createDto);
+  }
 
   @Get()
   @SuccessMessage('Subjects fetched successfully')
