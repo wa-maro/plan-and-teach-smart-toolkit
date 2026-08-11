@@ -60,7 +60,7 @@ export class SubjectsService {
   async findAll(
     query: SubjectQueryDto,
   ): Promise<ServiceResponse<SubjectResponseDto[]>> {
-    const { page, limit, sortBy, order } = query;
+    const { page, limit, sortBy, sortOrder } = query;
 
     const skip = (page - 1) * limit;
 
@@ -69,7 +69,7 @@ export class SubjectsService {
         skip,
         take: limit,
         orderBy: {
-          [sortBy]: order,
+          [sortBy]: sortOrder,
         },
         include: {
           mediumOfInstruction: true,

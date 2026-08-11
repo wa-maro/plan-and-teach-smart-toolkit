@@ -9,5 +9,5 @@ export class QueryFiltersDto {
   @IsOptional()
   @IsNotEmpty()
   @IsIn(['asc', 'desc'])
-  order?: 'asc' | 'desc' = 'asc';
+  sortOrder?: 'asc' | 'desc' = 'asc';
 }

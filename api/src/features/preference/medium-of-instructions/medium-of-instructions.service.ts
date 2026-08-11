@@ -43,13 +43,13 @@ export class MediumOfInstructionsService {
   async findAll(
     query: MediumOfInstructionQueryDto,
   ): Promise<ServiceResponse<MediumOfInstructionResponseDto[]>> {
-    const { sortBy, order } = query;
+    const { sortBy, sortOrder } = query;
 
     const sortByKey = sortBy ? sortBy : 'name';
 
     const mediums = await this.prisma.mediumOfInstruction.findMany({
       orderBy: {
-        [sortByKey]: order,
+        [sortByKey]: sortOrder,
       },
     });
 
