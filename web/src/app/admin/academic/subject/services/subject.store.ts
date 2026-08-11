@@ -4,9 +4,12 @@ import { CreateSubjectDto, Subject } from '../models';
 import { finalize } from 'rxjs';
 import { ToastService } from '@shared/components/toast/service';
 import { UpdateMediumDto } from '@preference/medium-of-instruction/models';
+import { PaginationMeta } from '@shared/types/api';
+import { UrlQueryParams } from '@shared/types/navigation';
 
 interface SubjectState {
   subjects: Subject[];
+  pagination: PaginationMeta | null;
   loading: boolean;
   detailSubject: Subject | null;
   detailLoading: boolean;
@@ -19,12 +22,15 @@ export class SubjectStore {
 
   private readonly _state = signal<SubjectState>({
     subjects: [],
+    pagination: null,
     loading: false,
     detailSubject: null,
     detailLoading: false,
   });
 
   readonly subjects = computed(() => this._state().subjects);
+
+  readonly pagination = computed(() => this._state().pagination);
 
   readonly loading = computed(() => this._state().loading);
 
@@ -48,14 +54,14 @@ export class SubjectStore {
       });
   }
 
-  load(): void {
+  load(params?: UrlQueryParams): void {
     this.updateCurrentState({ loading: true });
 
     this.subjectService
-      .getSubjects()
+      .getSubjects(params)
       .pipe(finalize(() => this.updateCurrentState({ loading: false })))
       .subscribe({
-        next: ({ data }) => this.updateCurrentState({ subjects: data }),
+        next: ({ data, meta }) => this.updateCurrentState({ subjects: data, pagination: meta }),
         error: () => {},
       });
   }
