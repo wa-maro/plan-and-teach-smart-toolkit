@@ -1,12 +1,16 @@
 import { Subject } from '@academic/subject/models';
 import { Component, model, signal } from '@angular/core';
 import { DrawerComponent } from '@shared/components';
+import { CreateSubjectForm } from '../create-subject-form/create-subject-form';
+import { SubjectDetail } from '../subject-detail/subject-detail';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 type DrawerMode = 'create' | 'show';
 
 @Component({
   selector: 'app-subject-drawer',
-  imports: [DrawerComponent],
+  imports: [DrawerComponent, CreateSubjectForm, SubjectDetail, MatIconButton, MatIcon],
   templateUrl: './subject-drawer.html',
   styles: ``,
 })
