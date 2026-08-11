@@ -3,12 +3,14 @@ import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
 import { DrawerComponent } from '@shared/components';
 import { MediumDetail } from '../medium-detail/medium-detail';
 import { CreateMediumForm } from '../create-medium-form/create-medium-form';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 type MediumDrawerMode = 'create' | 'show';
 
 @Component({
   selector: 'app-medium-drawer',
-  imports: [DrawerComponent, MediumDetail, CreateMediumForm],
+  imports: [DrawerComponent, MediumDetail, CreateMediumForm, MatIconButton, MatIcon],
   templateUrl: './medium-drawer.html',
   styles: ``,
 })

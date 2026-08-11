@@ -1,5 +1,11 @@
 <app-drawer-component [(opened)]="opened" (openedChange)="onDrawerStateChange($event)">
   <div drawer-side-panel>
+    <div class="absolute right-3 top-1">
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
     @switch (mode()) {
       @case ('create') {
         <app-create-medium-form />
