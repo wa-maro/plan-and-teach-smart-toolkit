@@ -2,12 +2,12 @@
   <div drawer-side-panel>
     @switch (mode()) {
       @case ('create') {
-        <p>Create Form</p>
+        <app-create-medium-form />
       }
 
       @case ('show') {
         @if (selectedMedium(); as medium) {
-          <p>Edit Form for {{ medium.name }}</p>
+          <app-medium-detail [selectedMedium]="medium" />
         }
       }
     }

@@ -1,12 +1,14 @@
 import { Component, model, signal } from '@angular/core';
 import { MediumOfInstruction } from '@preference/medium-of-instruction/models';
 import { DrawerComponent } from '@shared/components';
+import { MediumDetail } from '../medium-detail/medium-detail';
+import { CreateMediumForm } from '../create-medium-form/create-medium-form';
 
 type MediumDrawerMode = 'create' | 'show';
 
 @Component({
   selector: 'app-medium-drawer',
-  imports: [DrawerComponent],
+  imports: [DrawerComponent, MediumDetail, CreateMediumForm],
   templateUrl: './medium-drawer.html',
   styles: ``,
 })
