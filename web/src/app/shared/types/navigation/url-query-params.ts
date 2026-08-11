@@ -1,7 +1,13 @@
-export interface UrlQueryParams {
+export interface TableSortChange {
+  sortBy: string;
+  sortOrder: 'asc' | 'desc';
+}
+
+export interface PaginationChange {
   page: number;
   limit: number;
-  sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+}
+
+export interface UrlQueryParams extends Partial<TableSortChange & PaginationChange> {
   search?: string;
 }

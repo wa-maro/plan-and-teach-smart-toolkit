@@ -1,10 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-
-export interface PaginationChange {
-  page: number;
-  limit: number;
-}
+import { PaginationChange } from '@shared/types/navigation';
 
 @Component({
   selector: 'app-paginator',

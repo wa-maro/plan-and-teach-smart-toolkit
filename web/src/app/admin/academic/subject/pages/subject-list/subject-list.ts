@@ -8,7 +8,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialog } from '@core/components';
 import { SelectedRow } from '@shared/components';
-import { PaginationChange, Paginator } from '@shared/components/paginator/paginator';
+import { Paginator } from '@shared/components/paginator/paginator';
+import { PaginationChange } from '@shared/types/navigation';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
