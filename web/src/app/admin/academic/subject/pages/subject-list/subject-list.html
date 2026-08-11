@@ -33,6 +33,7 @@
           [subjects]="subjects()"
           [rowIndexOffset]="rowIndexOffset()"
           (selectedSubject)="getSelectedSubject($event)"
+          (sortChange)="onSortChange($event)"
         />
 
         @if (pagination(); as pagination) {

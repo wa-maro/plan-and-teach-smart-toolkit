@@ -9,8 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialog } from '@core/components';
 import { SelectedRow } from '@shared/components';
 import { Paginator } from '@shared/components/paginator/paginator';
-import { PaginationChange } from '@shared/types/navigation';
-import { ActivatedRoute, Router } from '@angular/router';
+import { PaginationChange, TableSortChange, UrlQueryParams } from '@shared/types/navigation';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-subject-list',
@@ -40,19 +40,19 @@ export class SubjectList {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
-      const page = params.get('page');
-      const limit = params.get('limit');
+      this.subjectStore.load(this.getQueryParams(params));
+    });
+  }
 
-      if (page && limit) {
-        this.subjectStore.load({
-          page: Number(page),
-          limit: Number(limit),
-        });
-
-        return;
-      }
-
-      this.subjectStore.load();
+  protected onSortChange(change: TableSortChange): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        page: 1,
+        sortBy: change.sortBy,
+        sortOrder: change.sortOrder,
+      },
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -63,6 +63,7 @@ export class SubjectList {
         page: change.limit !== this.pagination()?.limit ? 1 : change.page,
         limit: change.limit,
       },
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -101,5 +102,18 @@ export class SubjectList {
       if (!confirmed) return;
       this.subjectStore.delete(subject.id);
     });
+  }
+
+  private getQueryParams(params: ParamMap): UrlQueryParams {
+    return {
+      page: Number(params.get('page') ?? 1),
+      limit: Number(params.get('limit') ?? 10),
+      sortBy: params.get('sortBy') ?? undefined,
+      sortOrder: this.getSortOrder(params.get('sortOrder')),
+    };
+  }
+
+  private getSortOrder(value: string | null): 'asc' | 'desc' | undefined {
+    return value === 'asc' || value === 'desc' ? value : undefined;
   }
 }

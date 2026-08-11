@@ -1,23 +1,25 @@
-<app-table-component
-  [dataSource]="subjects()"
-  [displayedColumns]="displayedColumns"
-  [rowIndexOffset]="rowIndexOffset()"
-  (selectedRow)="onSelect($event)"
->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let subject">{{ subject.name }}</td>
-  </ng-container>
+<div matSort (matSortChange)="onSortChange($event)">
+  <app-table-component
+    [dataSource]="subjects()"
+    [displayedColumns]="displayedColumns"
+    [rowIndexOffset]="rowIndexOffset()"
+    (selectedRow)="onSelect($event)"
+  >
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="name">Name</th>
+      <td mat-cell *matCellDef="let subject">{{ subject.name }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="mediumOfInstruction">
-    <th mat-header-cell *matHeaderCellDef>Medium of instruction</th>
-    <td mat-cell *matCellDef="let subject">
-      {{ subject.mediumOfInstruction.name }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="mediumOfInstruction">
+      <th mat-header-cell *matHeaderCellDef>Medium of instruction</th>
+      <td mat-cell *matCellDef="let subject">
+        {{ subject.mediumOfInstruction.name }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="updatedAt">
-    <th mat-header-cell *matHeaderCellDef>Last update</th>
-    <td mat-cell *matCellDef="let subject">{{ subject.updatedAt | date: 'mediumDate' }}</td>
-  </ng-container>
-</app-table-component>
+    <ng-container matColumnDef="updatedAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt">Last update</th>
+      <td mat-cell *matCellDef="let subject">{{ subject.updatedAt | date: 'mediumDate' }}</td>
+    </ng-container>
+  </app-table-component>
+</div>
