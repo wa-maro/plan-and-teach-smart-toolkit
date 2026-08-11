@@ -28,10 +28,24 @@
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
     } @else {
-      <app-subject-table
-        [subjects]="subjects()"
-        (selectedSubject)="getSelectedSubject($event)"
-      ></app-subject-table>
+      <div class="flex flex-col subject-list-container">
+        <app-subject-table
+          [subjects]="subjects()"
+          [rowIndexOffset]="rowIndexOffset()"
+          (selectedSubject)="getSelectedSubject($event)"
+        />
+
+        @if (pagination(); as pagination) {
+          <div class="mt-auto">
+            <app-paginator
+              [total]="pagination.total"
+              [page]="pagination.page"
+              [limit]="pagination.limit"
+              (paginationChange)="onPaginationChange($event)"
+            />
+          </div>
+        }
+      </div>
     }
   </div>
 </app-subject-drawer>

@@ -14,6 +14,8 @@ export class SubjectTable {
   readonly subjects = input.required<Subject[]>();
   protected readonly displayedColumns = ['name', 'mediumOfInstruction', 'updatedAt'];
 
+  readonly rowIndexOffset = input(0);
+
   protected readonly selectedSubject = output<SelectedRow<Subject>>();
 
   protected onSelect(data: SelectedRow<Subject>) {

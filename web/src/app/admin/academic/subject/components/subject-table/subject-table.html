@@ -1,6 +1,7 @@
 <app-table-component
   [dataSource]="subjects()"
   [displayedColumns]="displayedColumns"
+  [rowIndexOffset]="rowIndexOffset()"
   (selectedRow)="onSelect($event)"
 >
   <ng-container matColumnDef="name">
