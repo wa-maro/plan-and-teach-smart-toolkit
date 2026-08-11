@@ -19,12 +19,12 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="keyColumns()"></tr>
+    <tr mat-header-row *matHeaderRowDef="keyColumns()" class="h-12!"></tr>
 
     <tr
       mat-row
       *matRowDef="let row; columns: keyColumns()"
-      class="cursor-pointer"
+      class="cursor-pointer h-12!"
       (click)="onRowSelect({ row, action: 'show' })"
     ></tr>
 

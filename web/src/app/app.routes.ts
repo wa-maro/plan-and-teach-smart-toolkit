@@ -7,7 +7,13 @@ export const routes: Routes = [
     component: PanelLayout,
     loadChildren: () => import('./teacher/teacher.routes').then((m) => m.teacherRoutes),
     data: {
-      navLinks: [{ url: 'dashboard', title: 'Dashboard' }],
+      navLinks: [
+        {
+          url: 'dashboard',
+          title: 'Dashboard',
+          icon: 'dashboard',
+        },
+      ],
     },
   },
   {

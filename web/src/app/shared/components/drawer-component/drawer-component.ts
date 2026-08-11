@@ -11,7 +11,7 @@ import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/materi
     }
 
     mat-drawer {
-      width: 24rem;
+      width: 28rem;
     }
 
     mat-drawer-content {
@@ -20,7 +20,7 @@ import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/materi
 
     @media (max-width: 768px) {
       mat-drawer {
-        width: min(85vw, 24rem);
+        width: min(85vw, 28rem);
       }
     }
   `,

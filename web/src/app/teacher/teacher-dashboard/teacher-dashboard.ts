@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-teacher-dashboard',
-  imports: [MatDivider],
+  imports: [],
   templateUrl: './teacher-dashboard.html',
   styles: ``,
 })
