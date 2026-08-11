@@ -24,6 +24,7 @@ export interface SelectedRow<T> {
 export class TableComponent<T> {
   readonly dataSource = input.required<T[]>();
   readonly displayedColumns = input<string[]>([]);
+  readonly rowIndexOffset = input(0);
 
   protected readonly keyColumns = computed(() => ['index', ...this.displayedColumns(), 'actions']);
 
