@@ -4,6 +4,7 @@ import { CrudService } from '../../../core/services';
 import { CreateSubjectDto, Subject, UpdateSubjectDto } from '../models';
 import { map, Observable } from 'rxjs';
 import { PaginatedResult } from '@shared/types/api';
+import { UrlQueryParams } from '@shared/types/navigation';
 
 @Service()
 export class SubjectService extends CrudService<Subject, CreateSubjectDto, UpdateSubjectDto> {
@@ -11,8 +12,8 @@ export class SubjectService extends CrudService<Subject, CreateSubjectDto, Updat
     super(`${inject(ENV_CONFIG).adminApiUrl}/subjects`);
   }
 
-  getSubjects(): Observable<PaginatedResult<Subject>> {
-    return this.apiFindMany().pipe(
+  getSubjects(params?: UrlQueryParams): Observable<PaginatedResult<Subject>> {
+    return this.apiFindMany(params).pipe(
       map((response) => ({
         data: response.data,
         meta: response.meta,

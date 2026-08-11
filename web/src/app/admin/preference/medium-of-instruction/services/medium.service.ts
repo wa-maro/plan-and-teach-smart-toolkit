@@ -4,6 +4,7 @@ import { CrudService } from '../../../core/services';
 import { CreateMediumDto, MediumOfInstruction, UpdateMediumDto } from '../models';
 import { map, Observable } from 'rxjs';
 import { PaginatedResult } from '@shared/types/api';
+import { UrlQueryParams } from '@shared/types/navigation';
 
 @Service()
 export class MediumService extends CrudService<
@@ -15,8 +16,8 @@ export class MediumService extends CrudService<
     super(`${inject(ENV_CONFIG).adminApiUrl}/medium-of-instructions`);
   }
 
-  getMedia(): Observable<PaginatedResult<MediumOfInstruction>> {
-    return this.apiFindMany().pipe(
+  getMedia(params?: UrlQueryParams): Observable<PaginatedResult<MediumOfInstruction>> {
+    return this.apiFindMany(params).pipe(
       map((response) => ({
         data: response.data,
         meta: response.meta,
