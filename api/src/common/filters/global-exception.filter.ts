@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ErrorResponseDto } from '@common/dtos/response';
+import { Prisma } from '@prisma';
+import { mapPrismaException } from '@common/utils';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -21,6 +23,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let message: string | string[] = 'Internal server error';
 
     let error = 'Internal Server Error';
+
+    if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+      exception = mapPrismaException(exception);
+    }
 
     if (exception instanceof HttpException) {
       statusCode = exception.getStatus();

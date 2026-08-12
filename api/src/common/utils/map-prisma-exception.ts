@@ -14,7 +14,7 @@ export function mapPrismaException(
         'A resource with the provided value already exists',
       );
 
-    case 'P2003':
+    case 'P2039':
       return new ConflictException(
         'Cannot complete this operation because the resource is referenced by another resource',
       );
