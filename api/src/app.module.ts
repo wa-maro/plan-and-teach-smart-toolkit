@@ -9,6 +9,7 @@ import { ResponseInterceptor } from '@common/interceptors';
 import { GlobalExceptionFilter } from '@common/filters';
 import { SecurityModule } from '@security/security.module';
 import { UsersModule } from '@users';
+import { AuthModule } from '@auth';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { UsersModule } from '@users';
     PreferenceModule,
     SecurityModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [

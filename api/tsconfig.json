@@ -19,7 +19,8 @@
       "@preference/*": ["./src/features/preference/*"],
       "@academic/*": ["./src/features/academic/*"],
       "@security/*": ["./src/security/*"],
-      "@users": ["./src/features/users"]
+      "@users": ["./src/features/users"],
+      "@auth": ["./src/features/auth"]
     },
     "incremental": true,
     "skipLibCheck": true,
