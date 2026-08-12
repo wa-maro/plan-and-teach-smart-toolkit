@@ -17,7 +17,8 @@
       "@common/*": ["./src/common/*"],
       "@prisma": ["./src/prisma"],
       "@preference/*": ["./src/features/preference/*"],
-      "@academic/*": ["./src/features/academic/*"]
+      "@academic/*": ["./src/features/academic/*"],
+      "@security/*": ["./src/security/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
