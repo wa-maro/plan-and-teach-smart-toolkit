@@ -3,6 +3,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../src/generated/prisma/client';
 import { seedMediumOfInstruction } from './seeders/medium-of-instruction.seeder';
 import { seedSubjects } from './seeders/subjects.seeder';
+import { seedUsers } from './seeders/users.seeder';
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -19,6 +20,7 @@ async function main() {
 
   await seedMediumOfInstruction(prisma);
   await seedSubjects(prisma);
+  await seedUsers(prisma);
 }
 
 main()
