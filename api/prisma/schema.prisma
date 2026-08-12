@@ -8,6 +8,26 @@ datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  ADMIN   @map("admin")
+  TEACHER @map("teacher")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique @db.Citext
+  phoneNumber  String   @unique @db.Citext
+  fullName     String
+  passwordHash String
+  role         UserRole @default(TEACHER)
+  isActive     Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
 model MediumOfInstruction {
   id   String @id @default(uuid())
   name String @unique @db.Citext
