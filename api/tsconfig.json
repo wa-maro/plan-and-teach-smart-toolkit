@@ -18,7 +18,8 @@
       "@prisma": ["./src/prisma"],
       "@preference/*": ["./src/features/preference/*"],
       "@academic/*": ["./src/features/academic/*"],
-      "@security/*": ["./src/security/*"]
+      "@security/*": ["./src/security/*"],
+      "@users": ["./src/features/users"]
     },
     "incremental": true,
     "skipLibCheck": true,

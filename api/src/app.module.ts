@@ -8,6 +8,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@common/interceptors';
 import { GlobalExceptionFilter } from '@common/filters';
 import { SecurityModule } from '@security/security.module';
+import { UsersModule } from '@users';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { SecurityModule } from '@security/security.module';
     AcademicModule,
     PreferenceModule,
     SecurityModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [
