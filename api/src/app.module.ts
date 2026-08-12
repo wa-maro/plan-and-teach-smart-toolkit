@@ -16,7 +16,9 @@ import { GlobalExceptionFilter } from '@common/filters';
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test')
           .default('development'),
+
         PORT: Joi.number().port().default(3000),
+
         DATABASE_URL: Joi.string()
           .pattern(/^postgres(ql)?:\/\//)
           .required()
@@ -24,7 +26,20 @@ import { GlobalExceptionFilter } from '@common/filters';
             'string.pattern.base':
               'DATABASE_URL must be a valid PostgreSQL connection string',
           }),
+
+        JWT_ACCESS_SECRET: Joi.string()
+          .min(10)
+          .required()
+          .label('JWT_ACCESS_SECRET'),
+        JWT_ACCESS_EXPIRES_IN: Joi.string().default('60s'),
+
+        JWT_REFRESH_SECRET: Joi.string()
+          .min(10)
+          .required()
+          .label('JWT_REFRESH_SECRET'),
+        JWT_REFRESH_EXPIRES_IN: Joi.string().default('1h'),
       }),
+
       validationOptions: {
         abortEarly: process.env.NODE_ENV === 'production',
       },
