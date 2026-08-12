@@ -11,7 +11,7 @@ export class CreateSubjectDto {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(3)
+  @MinLength(2)
   @MaxLength(8)
   abbreviation!: string;
 }

@@ -1,9 +1,5 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { Prisma, PrismaService } from '@prisma';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma';
 import {
   CreateSubjectDto,
   SubjectQueryDto,
@@ -13,10 +9,11 @@ import { SubjectResponseDto } from './dtos/response';
 import { PaginationMetaDto } from '@common/dtos/response';
 import { ServiceResponse } from '@common/interfaces';
 import slugify from 'slugify';
+import { SubjectsRepository } from './subjects.repository';
 
 @Injectable()
 export class SubjectsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly repository: SubjectsRepository) {}
 
   async create(
     dto: CreateSubjectDto,
@@ -28,33 +25,20 @@ export class SubjectsService {
       strict: true,
     });
 
-    try {
-      const subject = await this.prisma.subject.create({
-        data: {
-          name,
-          abbreviation,
-          mediumOfInstructionId,
-          slug,
+    const subject = await this.repository.create({
+      name,
+      abbreviation,
+      slug,
+      mediumOfInstruction: {
+        connect: {
+          id: mediumOfInstructionId,
         },
-        include: {
-          mediumOfInstruction: true,
-        },
-      });
+      },
+    });
 
-      const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
+    const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
 
-      return { data };
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
-          throw new ConflictException(
-            'A subject with the provided value already exists',
-          );
-        }
-      }
-
-      throw error;
-    }
+    return { data };
   }
 
   async findAll(
@@ -64,51 +48,35 @@ export class SubjectsService {
 
     const skip = (page - 1) * limit;
 
-    const [subjects, total] = await this.prisma.$transaction([
-      this.prisma.subject.findMany({
-        skip,
-        take: limit,
-        orderBy: {
-          [sortBy]: sortOrder,
-        },
-        include: {
-          mediumOfInstruction: true,
-        },
-      }),
+    const sortByKey = sortBy ?? 'name';
+    const sortByOrder = sortOrder ?? 'asc';
 
-      this.prisma.subject.count(),
-    ]);
+    const { subjects, total } = await this.repository.findAll({
+      skip,
+      take: limit,
+      sortBy: sortByKey,
+      sortOrder: sortByOrder,
+    });
 
     const data = subjects.map(
       (subject) => new SubjectResponseDto(subject, subject.mediumOfInstruction),
     );
+
     const meta = new PaginationMetaDto(page, limit, total);
 
     return { data, meta };
   }
 
   async findOne(id: string): Promise<ServiceResponse<SubjectResponseDto>> {
-    try {
-      const subject = await this.prisma.subject.findUniqueOrThrow({
-        where: { id },
-        include: {
-          mediumOfInstruction: true,
-        },
-      });
+    const subject = await this.repository.findOne(id);
 
-      const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
-
-      return { data };
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException('Subject not found');
-      }
-
-      throw error;
+    if (!subject) {
+      throw new NotFoundException('Subject not found');
     }
+
+    const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
+
+    return { data };
   }
 
   async update(id: string, dto: UpdateSubjectDto) {
@@ -122,7 +90,9 @@ export class SubjectsService {
           strict: true,
         }),
       }),
+
       ...(abbreviation !== undefined && { abbreviation }),
+
       ...(mediumOfInstructionId !== undefined && {
         mediumOfInstruction: {
           connect: {
@@ -132,49 +102,14 @@ export class SubjectsService {
       }),
     };
 
-    try {
-      const subject = await this.prisma.subject.update({
-        where: { id },
-        data: updateData,
-        include: {
-          mediumOfInstruction: true,
-        },
-      });
+    const subject = await this.repository.update(id, updateData);
 
-      const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
+    const data = new SubjectResponseDto(subject, subject.mediumOfInstruction);
 
-      return { data };
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        switch (error.code) {
-          case 'P2025':
-            throw new NotFoundException('Subject or medium not found');
-
-          case 'P2002':
-            throw new ConflictException(
-              'A subject with the provided value already exists',
-            );
-        }
-      }
-
-      throw error;
-    }
+    return { data };
   }
 
   async remove(id: string): Promise<void> {
-    try {
-      await this.prisma.subject.delete({
-        where: { id },
-      });
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        switch (error.code) {
-          case 'P2025':
-            throw new NotFoundException('Subject not found');
-        }
-      }
-
-      throw error;
-    }
+    await this.repository.remove(id);
   }
 }
