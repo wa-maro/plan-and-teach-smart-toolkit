@@ -25,7 +25,27 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  sessions Session[]
+
   @@map("users")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  tokenHash String
+  expiresAt DateTime
+  userAgent String
+  ipAddress String
+
+  lastUsedAt DateTime
+  createdAt  DateTime  @default(now())
+  revokedAt  DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("sessions")
 }
 
 model MediumOfInstruction {
