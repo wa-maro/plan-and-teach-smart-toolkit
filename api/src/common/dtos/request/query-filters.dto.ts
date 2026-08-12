@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma';
 import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class QueryFiltersDto {
@@ -9,5 +10,5 @@ export class QueryFiltersDto {
   @IsOptional()
   @IsNotEmpty()
   @IsIn(['asc', 'desc'])
-  sortOrder?: 'asc' | 'desc' = 'asc';
+  sortOrder?: Prisma.SortOrder = 'asc';
 }

@@ -5,10 +5,8 @@ import { Prisma, PrismaService } from '@prisma';
 export class MediumOfInstructionsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: Prisma.MediumOfInstructionCreateInput) {
-    return this.prisma.mediumOfInstruction.create({
-      data: dto,
-    });
+  async create(data: Prisma.MediumOfInstructionCreateInput) {
+    return this.prisma.mediumOfInstruction.create({ data });
   }
 
   async findAll(queryFilter: {
