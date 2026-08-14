@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma';
+import { Prisma } from '@prisma/client';
 import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class QueryFiltersDto {

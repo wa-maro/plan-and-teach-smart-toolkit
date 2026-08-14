@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma';
 import {
   CreateSubjectDto,
   SubjectQueryDto,
@@ -10,6 +9,7 @@ import { PaginationMetaDto } from '@common/dtos/response';
 import { ServiceResponse } from '@common/interfaces';
 import slugify from 'slugify';
 import { SubjectsRepository } from './subjects.repository';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class SubjectsService {
