@@ -7,7 +7,7 @@ import { PreferenceModule } from './features/preference';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@common/interceptors';
 import { GlobalExceptionFilter } from '@common/filters';
-import { SecurityModule } from '@security/security.module';
+import { SecurityModule } from '@security';
 import { UsersModule } from '@users';
 import { AuthModule } from '@auth';
 
