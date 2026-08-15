@@ -32,12 +32,39 @@ export class UsersRepository {
       this.prisma.user.count(),
     ]);
 
-    return { users: users, total };
+    return { users, total };
   }
 
-  async findOne(id: string) {
+  async findById(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
+    });
+  }
+
+  async findActiveUserById(id: string) {
+    return this.prisma.user.findFirst({
+      where: {
+        id,
+        isActive: true,
+      },
+    });
+  }
+
+  async findByUsername(username: string) {
+    return this.prisma.user.findUnique({
+      where: { username },
+    });
+  }
+
+  async findByPhone(phoneNumber: string) {
+    return this.prisma.user.findUnique({
+      where: { phoneNumber },
+    });
+  }
+
+  async findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
     });
   }
 
