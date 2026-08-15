@@ -48,4 +48,8 @@ export class UsersService {
 
     return { data };
   }
+
+  async remove(id: string): Promise<void> {
+    await this.repository.remove(id);
+  }
 }

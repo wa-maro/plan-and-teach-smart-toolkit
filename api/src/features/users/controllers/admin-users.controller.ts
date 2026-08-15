@@ -1,4 +1,11 @@
-import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Query,
+} from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { UserQueryDto } from '../dto/request';
 import { SuccessMessage } from '@common/decorators';
@@ -23,5 +30,11 @@ export class AdminUsersControllerController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ServiceResponse<UserDetailResponseDto>> {
     return this.usersService.findOne(id);
+  }
+
+  @Delete(':id')
+  @SuccessMessage('User deleted successfully')
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    return this.usersService.remove(id);
   }
 }
