@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from '@prisma';
+import { PrismaModule } from '@app-prisma';
 import * as Joi from 'joi';
 import { AcademicModule } from './features/academic';
 import { PreferenceModule } from './features/preference';

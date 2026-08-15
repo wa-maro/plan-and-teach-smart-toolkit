@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../src/generated/prisma/client';
+import { PrismaClient } from '@app-prisma/client';
 import { subjects } from '../data/subjects';
 import slugify from 'slugify';
 

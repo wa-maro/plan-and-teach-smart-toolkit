@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { PrismaClient, UserRole } from '@prisma';
+import { PrismaClient, UserRole } from '@app-prisma/client';
 import { teachers } from '../data/users';
 
 const ADMIN_PASSWORD = process.env.ADMIN_SEED_PASSWORD;

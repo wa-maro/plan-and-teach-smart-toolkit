@@ -15,8 +15,8 @@
     "outDir": "./dist",
     "paths": {
       "@common/*": ["./src/common/*"],
-      "@prisma": ["./src/prisma"],
-      "@prisma/*": ["./src/prisma/*"],
+      "@app-prisma": ["./src/prisma"],
+      "@app-prisma/*": ["./src/prisma/*"],
       "@preference/*": ["./src/features/preference/*"],
       "@academic/*": ["./src/features/academic/*"],
       "@security": ["./src/security"],

@@ -9,7 +9,7 @@ import { PaginationMetaDto } from '@common/dtos/response';
 import { ServiceResponse } from '@common/interfaces';
 import slugify from 'slugify';
 import { SubjectsRepository } from './subjects.repository';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@app-prisma/client';
 
 @Injectable()
 export class SubjectsService {

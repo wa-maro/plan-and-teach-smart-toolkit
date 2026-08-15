@@ -1,4 +1,4 @@
-import { MediumOfInstruction, Subject } from '@prisma';
+import { MediumOfInstruction, Subject } from '@app-prisma/client';
 import { SubjectMinimalResponseDto } from './subject-minimal-response.tdo';
 import { MediumOfInstructionMinimalResponseDto } from '@preference/medium-of-instructions/dtos/response';
 

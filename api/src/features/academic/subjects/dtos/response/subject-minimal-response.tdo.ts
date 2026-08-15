@@ -1,4 +1,4 @@
-import { Subject } from '@prisma';
+import { Subject } from '@app-prisma/client';
 
 export class SubjectMinimalResponseDto {
   id: string;

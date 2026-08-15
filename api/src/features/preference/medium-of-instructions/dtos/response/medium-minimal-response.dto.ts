@@ -1,4 +1,4 @@
-import { MediumOfInstruction } from '@prisma';
+import { MediumOfInstruction } from '@app-prisma/client';
 
 export class MediumOfInstructionMinimalResponseDto {
   readonly id: string;

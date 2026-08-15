@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@prisma';
+import { PrismaService } from '@app-prisma/service';
 import { UsersService } from '@users';
 import { JwtTokenService } from '@security/jwt-token';
 import { PasswordService } from '@security/password';

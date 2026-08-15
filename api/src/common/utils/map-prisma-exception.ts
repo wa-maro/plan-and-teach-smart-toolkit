@@ -3,7 +3,7 @@ import {
   HttpException,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma';
+import { Prisma } from '@app-prisma/client';
 
 export function mapPrismaException(
   exception: Prisma.PrismaClientKnownRequestError,

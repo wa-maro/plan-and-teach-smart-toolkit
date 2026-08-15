@@ -1,6 +1,6 @@
 import 'dotenv/config';
+import { PrismaClient } from '@app-prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../src/generated/prisma/client';
 import { seedMediumOfInstruction } from './seeders/medium-of-instruction.seeder';
 import { seedSubjects } from './seeders/subjects.seeder';
 import { seedUsers } from './seeders/users.seeder';

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../src/generated/prisma/client';
+import { PrismaClient } from '@app-prisma/client';
 import { mediumOfInstructions } from '../data/medium-of-instruction';
 
 export async function seedMediumOfInstruction(prisma: PrismaClient) {

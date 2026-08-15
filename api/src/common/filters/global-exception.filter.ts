@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ErrorResponseDto } from '@common/dtos/response';
-import { Prisma } from '@prisma';
+import { Prisma } from '@app-prisma/client';
 import { mapPrismaException } from '@common/utils';
 
 @Catch()
