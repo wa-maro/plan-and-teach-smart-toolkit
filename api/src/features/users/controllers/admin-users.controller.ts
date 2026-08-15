@@ -1,9 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { UserQueryDto } from '../dto/request';
 import { SuccessMessage } from '@common/decorators';
 import { ServiceResponse } from '@common/interfaces';
-import { UserResponseDto } from '../dto/response';
+import { UserDetailResponseDto, UserResponseDto } from '../dto/response';
 
 @Controller('admin/users')
 export class AdminUsersControllerController {
@@ -15,5 +15,13 @@ export class AdminUsersControllerController {
     @Query() query: UserQueryDto,
   ): Promise<ServiceResponse<UserResponseDto[]>> {
     return this.usersService.findAll(query);
+  }
+
+  @Get(':id')
+  @SuccessMessage('User fetched successfully')
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ServiceResponse<UserDetailResponseDto>> {
+    return this.usersService.findOne(id);
   }
 }

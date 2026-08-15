@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PasswordService } from '@security/password';
 import { UsersRepository } from './users.repository';
 import { UserQueryDto } from './dto/request';
 import { ServiceResponse } from '@common/interfaces';
-import { UserResponseDto } from './dto/response';
+import { UserDetailResponseDto, UserResponseDto } from './dto/response';
 import { PaginationMetaDto } from '@common/dtos/response';
 
 @Injectable()
@@ -35,5 +35,17 @@ export class UsersService {
     const meta = new PaginationMetaDto(page, limit, total);
 
     return { data, meta };
+  }
+
+  async findOne(id: string): Promise<ServiceResponse<UserDetailResponseDto>> {
+    const user = await this.repository.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const data = new UserDetailResponseDto(user);
+
+    return { data };
   }
 }
