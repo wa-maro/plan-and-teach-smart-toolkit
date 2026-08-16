@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '@app-prisma/service';
 import { UsersService } from '@users';
 import { JwtTokenService } from '@security/jwt-token';
@@ -6,6 +10,7 @@ import { PasswordService } from '@security/password';
 import { SessionsService } from '@security/sessions';
 import { Session, User } from '@app-prisma/client';
 import { AuthResponseDto } from './dtos/response';
+import { UserDetailResponseDto } from '@users/dto/response';
 
 @Injectable()
 export class AuthService {
@@ -68,6 +73,14 @@ export class AuthService {
     await this.sessionsService.updateOne(session.id, {
       revokedAt: new Date(),
     });
+  }
+
+  async profile(id: string) {
+    const user = await this.getActiveUser(id);
+    if (!user) throw new NotFoundException('User not found');
+    const data = new UserDetailResponseDto(user);
+
+    return { data };
   }
 
   async refreshSession(sessionId: string) {

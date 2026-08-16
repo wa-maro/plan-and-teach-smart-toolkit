@@ -1,11 +1,16 @@
 import { type User } from '@app-prisma/client';
 import { AuthService } from '@auth/auth.service';
-import { ValidatedRefresh, ValidatedUser } from '@auth/decorators';
-import { LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
-import type { AuthRefresh } from '@auth/interfaces';
+import {
+  AuthenticatedUser,
+  ValidatedRefresh,
+  ValidatedUser,
+} from '@auth/decorators';
+import { JwtAuthGuard, LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
+import type { AuthRefresh, AuthUser } from '@auth/interfaces';
 import { clearRefreshCookie, setRefreshCookie } from '@common/utils';
 import {
   Controller,
+  Get,
   Headers,
   HttpCode,
   HttpStatus,
@@ -52,6 +57,13 @@ export class AuthController {
     await this.authService.logout(refresh.sessionId);
 
     clearRefreshCookie(response);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get('me')
+  me(@AuthenticatedUser() user: AuthUser) {
+    return this.authService.profile(user.id);
   }
 
   @HttpCode(HttpStatus.OK)
