@@ -25,4 +25,8 @@ export class AuthService {
 
     return user;
   }
+
+  async getActiveUser(id: string) {
+    return this.usersService.findActiveUserById(id);
+  }
 }
