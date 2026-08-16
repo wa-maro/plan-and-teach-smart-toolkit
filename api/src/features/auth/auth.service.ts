@@ -39,7 +39,7 @@ export class AuthService {
         tx,
       );
 
-      const refresh_token = await this.tokenService.generateRefreshToken({
+      const refreshToken = await this.tokenService.generateRefreshToken({
         sub: user.id,
         sessionId: session.id,
       });
@@ -47,7 +47,7 @@ export class AuthService {
       await this.sessionsService.updateOne(
         session.id,
         {
-          tokenHash: await this.passwordService.hash(refresh_token),
+          tokenHash: await this.passwordService.hash(refreshToken),
           lastUsedAt: new Date(Date.now()),
         },
         tx,
@@ -55,7 +55,7 @@ export class AuthService {
 
       return {
         ...new AuthResponseDto(access_token, user),
-        refresh_token,
+        refreshToken,
         expiresIn,
       };
     });

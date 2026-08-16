@@ -23,5 +23,5 @@ export function clearRefreshCookie(
   response: Response,
   secure = process.env.NODE_ENV === 'production',
 ) {
-  response.clearCookie('refreshToken', { ...cookieOptions, secure });
+  response.clearCookie('refresh_token', { ...cookieOptions, secure });
 }

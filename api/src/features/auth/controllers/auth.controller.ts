@@ -30,10 +30,13 @@ export class AuthController {
   ) {
     const ipAddress = ip.replace('::ffff:', '');
 
-    const { refresh_token, expiresIn, ...resObj } =
-      await this.authService.login(validUser, userAgent, ipAddress);
+    const { refreshToken, expiresIn, ...resObj } = await this.authService.login(
+      validUser,
+      userAgent,
+      ipAddress,
+    );
 
-    setRefreshCookie(response, refresh_token, expiresIn);
+    setRefreshCookie(response, refreshToken, expiresIn);
 
     return { data: resObj };
   }
