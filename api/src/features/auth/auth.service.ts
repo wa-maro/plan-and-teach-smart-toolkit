@@ -70,6 +70,50 @@ export class AuthService {
     });
   }
 
+  async refreshSession(sessionId: string) {
+    const { user, refresh_token, expiresIn } = await this.prisma.$transaction(
+      async (tx) => {
+        const session = await this.sessionsService.findByIdWithUser(
+          sessionId,
+          tx,
+        );
+        if (!session) throw new UnauthorizedException();
+
+        const refresh_token = await this.tokenService.generateRefreshToken({
+          sub: session.userId,
+          sessionId: session.id,
+        });
+
+        const expiresIn = this.tokenService.getRefreshExpiration();
+
+        await this.sessionsService.updateOne(
+          session.id,
+          {
+            tokenHash: await this.passwordService.hash(refresh_token),
+            expiresAt: new Date(Date.now() + expiresIn),
+            lastUsedAt: new Date(),
+          },
+          tx,
+        );
+
+        return { user: session.user, refresh_token, expiresIn };
+      },
+    );
+
+    const payload = this.tokenService.generatePayload(user);
+
+    const access_token = await this.tokenService.generateAccessToken({
+      sub: payload.sub,
+      user: payload.user,
+    });
+
+    return {
+      ...new AuthResponseDto(access_token, user),
+      refresh_token,
+      expiresIn,
+    };
+  }
+
   async validateUser(username: string, password: string): Promise<User> {
     const user = await this.usersService.findByUsername(username);
     if (!user) throw new UnauthorizedException('Invalid credentials');

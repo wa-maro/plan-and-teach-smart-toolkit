@@ -53,4 +53,19 @@ export class AuthController {
 
     clearRefreshCookie(response);
   }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(RefreshTokenGuard)
+  @Post('refresh')
+  async refresh(
+    @ValidatedRefresh() refresh: AuthRefresh,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { refresh_token, expiresIn, ...resObj } =
+      await this.authService.refreshSession(refresh.sessionId);
+
+    setRefreshCookie(response, refresh_token, expiresIn);
+
+    return { data: resObj };
+  }
 }
