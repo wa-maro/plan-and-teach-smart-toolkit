@@ -5,6 +5,7 @@ import { JwtTokenService } from '@security/jwt-token';
 import { PasswordService } from '@security/password';
 import { SessionsService } from '@security/sessions';
 import { Session, User } from '@app-prisma/client';
+import { AuthResponseDto } from './dtos/response';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,50 @@ export class AuthService {
     private readonly tokenService: JwtTokenService,
     private readonly sessionsService: SessionsService,
   ) {}
+
+  async login(user: User, userAgent: string, ipAddress: string) {
+    const payload = this.tokenService.generatePayload(user);
+
+    const access_token = await this.tokenService.generateAccessToken(payload);
+
+    const expiresIn = this.tokenService.getRefreshExpiration();
+
+    return await this.prisma.$transaction(async (tx) => {
+      const session = await this.sessionsService.insertOne(
+        {
+          tokenHash: '',
+          expiresAt: new Date(Date.now() + expiresIn),
+          userAgent,
+          ipAddress,
+          lastUsedAt: new Date(Date.now()),
+          user: {
+            connect: { id: user.id },
+          },
+        },
+        tx,
+      );
+
+      const refresh_token = await this.tokenService.generateRefreshToken({
+        sub: user.id,
+        sessionId: session.id,
+      });
+
+      await this.sessionsService.updateOne(
+        session.id,
+        {
+          tokenHash: await this.passwordService.hash(refresh_token),
+          lastUsedAt: new Date(Date.now()),
+        },
+        tx,
+      );
+
+      return {
+        ...new AuthResponseDto(access_token, user),
+        refresh_token,
+        expiresIn,
+      };
+    });
+  }
 
   async validateUser(username: string, password: string): Promise<User> {
     const user = await this.usersService.findByUsername(username);
