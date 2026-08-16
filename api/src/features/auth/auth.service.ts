@@ -4,7 +4,7 @@ import { UsersService } from '@users';
 import { JwtTokenService } from '@security/jwt-token';
 import { PasswordService } from '@security/password';
 import { SessionsService } from '@security/sessions';
-import { User } from '@app-prisma/client';
+import { Session, User } from '@app-prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -28,5 +28,15 @@ export class AuthService {
 
   async getActiveUser(id: string) {
     return this.usersService.findActiveUserById(id);
+  }
+
+  async validateSession(sessionId: string, token: string): Promise<Session> {
+    const session = await this.sessionsService.findById(sessionId);
+    if (!session) throw new UnauthorizedException('Invalid credentials1111');
+
+    const ok = await this.passwordService.compare(token, session.tokenHash);
+    if (!ok) throw new UnauthorizedException('Invalid credentials222');
+
+    return session;
   }
 }
