@@ -61,6 +61,15 @@ export class AuthService {
     });
   }
 
+  async logout(sessionId: string) {
+    const session = await this.sessionsService.findById(sessionId);
+    if (!session) return;
+
+    await this.sessionsService.updateOne(session.id, {
+      revokedAt: new Date(),
+    });
+  }
+
   async validateUser(username: string, password: string): Promise<User> {
     const user = await this.usersService.findByUsername(username);
     if (!user) throw new UnauthorizedException('Invalid credentials');

@@ -1,8 +1,9 @@
 import { type User } from '@app-prisma/client';
 import { AuthService } from '@auth/auth.service';
-import { ValidatedUser } from '@auth/decorators';
-import { LocalAuthGuard } from '@auth/guards';
-import { setRefreshCookie } from '@common/utils';
+import { ValidatedRefresh, ValidatedUser } from '@auth/decorators';
+import { LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
+import type { AuthRefresh } from '@auth/interfaces';
+import { clearRefreshCookie, setRefreshCookie } from '@common/utils';
 import {
   Controller,
   Headers,
@@ -39,5 +40,17 @@ export class AuthController {
     setRefreshCookie(response, refreshToken, expiresIn);
 
     return { data: resObj };
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('logout')
+  @UseGuards(RefreshTokenGuard)
+  async logout(
+    @ValidatedRefresh() refresh: AuthRefresh,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<void> {
+    await this.authService.logout(refresh.sessionId);
+
+    clearRefreshCookie(response);
   }
 }
