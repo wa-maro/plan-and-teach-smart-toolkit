@@ -22,7 +22,9 @@
       "@security": ["./src/security"],
       "@security/*": ["./src/security/*"],
       "@users": ["./src/features/users"],
-      "@auth": ["./src/features/auth"]
+      "@users/*": ["./src/features/users/*"],
+      "@auth": ["./src/features/auth"],
+      "@auth/*": ["./src/features/auth/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
