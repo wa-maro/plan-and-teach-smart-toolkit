@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { JWTAccessPayload, JwtRefreshPayload } from './interfaces';
 import { toMilliseconds } from '@common/utils';
+import { AuthUser } from '@auth/interfaces';
 
 @Injectable()
 export class JwtTokenService {
@@ -43,5 +44,17 @@ export class JwtTokenService {
     return toMilliseconds(
       this.config.getOrThrow('JWT_REFRESH_EXPIRES_IN') || '1h',
     );
+  }
+
+  /**
+   * Generate JWT access token payload
+   * @param user AuthUser
+   * @returns JwtPayload
+   */
+  generatePayload(user: AuthUser): JWTAccessPayload {
+    return {
+      sub: user.id,
+      user: { username: user.username, role: user.role },
+    };
   }
 }
