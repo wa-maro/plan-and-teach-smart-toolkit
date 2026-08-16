@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PasswordService } from '@security/password';
 import { UsersRepository } from './users.repository';
-import { CreateUserDto, UserQueryDto } from './dto/request';
+import { CreateUserDto, UpdateUserDto, UserQueryDto } from './dto/request';
 import { ServiceResponse } from '@common/interfaces';
 import { UserDetailResponseDto, UserResponseDto } from './dto/response';
 import { PaginationMetaDto } from '@common/dtos/response';
@@ -96,7 +96,64 @@ export class UsersService {
     return { data };
   }
 
+  async update(
+    id: string,
+    dto: UpdateUserDto,
+  ): Promise<ServiceResponse<UserResponseDto>> {
+    const { username, phoneNumber, fullName, email, role, isActive } = dto;
+
+    const user = await this.repository.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (username && username !== user.username) {
+      const existingUsername = await this.repository.findByUsername(username);
+
+      if (existingUsername && existingUsername.id !== id) {
+        throw new ConflictException('Username already taken');
+      }
+    }
+
+    const nomalizedPhone = phoneNumber ? normalizePhoneNumber(phoneNumber) : '';
+    if (nomalizedPhone !== user.phoneNumber) {
+      const existingPhone = await this.repository.findByPhone(nomalizedPhone);
+
+      if (existingPhone && existingPhone.id !== id) {
+        throw new ConflictException('Phone number already taken');
+      }
+    }
+
+    if (email && email !== user.email) {
+      const existingEmail = await this.repository.findByEmail(email);
+
+      if (existingEmail && existingEmail.id !== id) {
+        throw new ConflictException('Email already taken');
+      }
+    }
+
+    const updated = await this.repository.update(id, {
+      ...(username !== undefined && { username }),
+      ...(phoneNumber !== undefined && { phoneNumber: nomalizedPhone }),
+      ...(fullName !== undefined && { fullName }),
+      ...(email !== undefined && { email }),
+      ...(role !== undefined && { role }),
+      ...(isActive !== undefined && { isActive }),
+    });
+
+    const data = new UserResponseDto(updated);
+
+    return { data };
+  }
+
   async remove(id: string): Promise<void> {
+    const user = await this.repository.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     await this.repository.remove(id);
   }
 

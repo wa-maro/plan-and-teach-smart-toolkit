@@ -5,11 +5,12 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
 import { UsersService } from '../users.service';
-import { CreateUserDto, UserQueryDto } from '../dto/request';
+import { CreateUserDto, UpdateUserDto, UserQueryDto } from '../dto/request';
 import { SuccessMessage } from '@common/decorators';
 import { ServiceResponse } from '@common/interfaces';
 import { UserDetailResponseDto, UserResponseDto } from '../dto/response';
@@ -40,6 +41,15 @@ export class AdminUsersControllerController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ServiceResponse<UserDetailResponseDto>> {
     return this.usersService.findOne(id);
+  }
+
+  @Patch(':id')
+  @SuccessMessage('User updated successfully')
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateDto: UpdateUserDto,
+  ): Promise<ServiceResponse<UserResponseDto>> {
+    return this.usersService.update(id, updateDto);
   }
 
   @Delete(':id')
