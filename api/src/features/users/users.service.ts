@@ -1,10 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PasswordService } from '@security/password';
 import { UsersRepository } from './users.repository';
-import { UserQueryDto } from './dto/request';
+import { CreateUserDto, UserQueryDto } from './dto/request';
 import { ServiceResponse } from '@common/interfaces';
 import { UserDetailResponseDto, UserResponseDto } from './dto/response';
 import { PaginationMetaDto } from '@common/dtos/response';
+import { normalizePhoneNumber } from '@common/utils/phone-normalizer.util';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +17,48 @@ export class UsersService {
     private readonly passwordService: PasswordService,
     private readonly repository: UsersRepository,
   ) {}
+
+  async create(dto: CreateUserDto): Promise<ServiceResponse<UserResponseDto>> {
+    const { username, phoneNumber, fullName, email, role, password, isActive } =
+      dto;
+
+    const existingUsername = await this.findByUsername(username);
+
+    if (existingUsername) {
+      throw new ConflictException('Username already taken');
+    }
+
+    const nomalizedPhone = normalizePhoneNumber(phoneNumber);
+    const existingPhone = await this.repository.findByPhone(nomalizedPhone);
+
+    if (existingPhone) {
+      throw new ConflictException('Phone number already taken');
+    }
+
+    if (email) {
+      const existingEmail = await this.repository.findByEmail(email);
+
+      if (existingEmail) {
+        throw new ConflictException('Email already taken');
+      }
+    }
+
+    const passwordHash = await this.passwordService.hash(password);
+
+    const user = await this.repository.create({
+      username,
+      phoneNumber: nomalizedPhone,
+      fullName,
+      email,
+      passwordHash,
+      role,
+      isActive,
+    });
+
+    const data = new UserResponseDto(user);
+
+    return { data };
+  }
 
   async findAll(
     query: UserQueryDto,
@@ -51,5 +98,13 @@ export class UsersService {
 
   async remove(id: string): Promise<void> {
     await this.repository.remove(id);
+  }
+
+  async findActiveUserById(id: string) {
+    return this.repository.findActiveUserById(id);
+  }
+
+  async findByUsername(username: string) {
+    return this.repository.findByUsername(username);
   }
 }

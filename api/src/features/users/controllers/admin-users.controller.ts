@@ -1,13 +1,15 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   Param,
   ParseUUIDPipe,
+  Post,
   Query,
 } from '@nestjs/common';
 import { UsersService } from '../users.service';
-import { UserQueryDto } from '../dto/request';
+import { CreateUserDto, UserQueryDto } from '../dto/request';
 import { SuccessMessage } from '@common/decorators';
 import { ServiceResponse } from '@common/interfaces';
 import { UserDetailResponseDto, UserResponseDto } from '../dto/response';
@@ -15,6 +17,14 @@ import { UserDetailResponseDto, UserResponseDto } from '../dto/response';
 @Controller('admin/users')
 export class AdminUsersControllerController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Post()
+  @SuccessMessage('User created successfully')
+  async create(
+    @Body() createDto: CreateUserDto,
+  ): Promise<ServiceResponse<UserResponseDto>> {
+    return this.usersService.create(createDto);
+  }
 
   @Get()
   @SuccessMessage('Users fetched successfully')
