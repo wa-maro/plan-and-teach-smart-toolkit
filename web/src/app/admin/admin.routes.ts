@@ -13,6 +13,10 @@ export const adminRoutes: Routes = [
     title: 'Dashboard | TeachDocs',
   },
   {
+    path: 'users',
+    loadChildren: () => import('./user/user.routes').then((m) => m.userRoutes),
+  },
+  {
     path: 'preference',
     loadChildren: () => import('./preference/preference.routes').then((m) => m.preferenceRoutes),
   },

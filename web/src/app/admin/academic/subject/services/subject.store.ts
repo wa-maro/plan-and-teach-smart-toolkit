@@ -1,9 +1,8 @@
 import { computed, inject, Service, signal } from '@angular/core';
 import { SubjectService } from './subject.service';
-import { CreateSubjectDto, Subject } from '../models';
+import { CreateSubjectDto, Subject, UpdateSubjectDto } from '../models';
 import { finalize } from 'rxjs';
 import { ToastService } from '@shared/components/toast/service';
-import { UpdateMediumDto } from '@preference/medium-of-instruction/models';
 import { PaginationMeta } from '@shared/types/api';
 import { UrlQueryParams } from '@shared/types/navigation';
 
@@ -81,7 +80,7 @@ export class SubjectStore {
       });
   }
 
-  update(id: string, dto: UpdateMediumDto) {
+  update(id: string, dto: UpdateSubjectDto) {
     this.updateCurrentState({
       detailLoading: true,
       loading: true,

@@ -15,6 +15,7 @@
     "module": "preserve",
     "paths": {
       "@shared/*": ["./src/app/shared/*"],
+      "@user/*": ["./src/app/admin/user/*"],
       "@preference/*": ["./src/app/admin/preference/*"],
       "@academic/*": ["./src/app/admin/academic/*"],
       "@core/*": ["./src/app/admin/core/*"]

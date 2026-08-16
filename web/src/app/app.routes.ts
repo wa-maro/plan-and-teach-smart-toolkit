@@ -37,6 +37,11 @@ export const routes: Routes = [
           title: 'Subjects',
           icon: 'menu_book',
         },
+        {
+          url: ['users'],
+          title: 'users',
+          icon: 'people',
+        },
       ],
     },
   },
