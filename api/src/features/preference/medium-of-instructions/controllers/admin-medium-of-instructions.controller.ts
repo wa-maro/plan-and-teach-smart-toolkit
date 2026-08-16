@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { MediumOfInstructionsService } from '../medium-of-instructions.service';
 import {
@@ -18,7 +19,12 @@ import {
 import { SuccessMessage } from '@common/decorators';
 import { ServiceResponse } from '@common/interfaces';
 import { MediumOfInstructionResponseDto } from '../dtos/response';
+import { JwtAuthGuard, RolesGuard } from '@auth/guards';
+import { Roles } from '@auth/decorators';
+import { UserRole } from '@app-prisma/client';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('admin/medium-of-instructions')
 export class AdminMediumOfInstructionsController {
   constructor(

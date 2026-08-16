@@ -15,10 +15,16 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ServiceResponse } from '@common/interfaces';
 import { SubjectResponseDto } from '../dtos/response';
+import { JwtAuthGuard, RolesGuard } from '@auth/guards';
+import { Roles } from '@auth/decorators';
+import { UserRole } from '@app-prisma/client';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('admin/subjects')
 export class AdminSubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
