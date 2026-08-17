@@ -1,6 +1,8 @@
+import { UserRole } from '@shared/models';
+
 export interface AuthUser {
   id: string;
   username: string;
-  role: string;
+  role: UserRole;
   isActive: boolean;
 }
