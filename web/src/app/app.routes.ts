@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { authGuard } from '@shared/auth/guards';
+import { authGuard, roleGuard } from '@shared/auth/guards';
 import { PanelLayout } from '@shared/components';
+import { UserRole } from '@shared/models';
 
 export const routes: Routes = [
   {
@@ -9,10 +10,11 @@ export const routes: Routes = [
   },
   {
     path: 'teacher',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
     component: PanelLayout,
     loadChildren: () => import('./teacher/teacher.routes').then((m) => m.teacherRoutes),
     data: {
+      roles: [UserRole.ADMIN],
       navLinks: [
         {
           url: 'dashboard',
@@ -24,10 +26,11 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
     component: PanelLayout,
     loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
     data: {
+      roles: [UserRole.TEACHER],
       navLinks: [
         {
           url: 'dashboard',
