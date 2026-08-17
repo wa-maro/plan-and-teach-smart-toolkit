@@ -3,6 +3,10 @@ import { PanelLayout } from '@shared/components';
 
 export const routes: Routes = [
   {
+    path: 'auth',
+    loadChildren: () => import('./shared/auth/auth.routes').then((m) => m.authRoutes),
+  },
+  {
     path: 'teacher',
     component: PanelLayout,
     loadChildren: () => import('./teacher/teacher.routes').then((m) => m.teacherRoutes),
