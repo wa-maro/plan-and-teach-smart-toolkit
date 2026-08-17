@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '@shared/auth/guards';
 import { PanelLayout } from '@shared/components';
 
 export const routes: Routes = [
@@ -8,6 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'teacher',
+    canActivate: [authGuard],
     component: PanelLayout,
     loadChildren: () => import('./teacher/teacher.routes').then((m) => m.teacherRoutes),
     data: {
@@ -22,6 +24,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    canActivate: [authGuard],
     component: PanelLayout,
     loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
     data: {
