@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import { authGuard, roleGuard } from '@shared/auth/guards';
+import { guestGuard } from '@shared/auth/guards/guest.guard';
 import { PanelLayout } from '@shared/components';
 import { UserRole } from '@shared/models';
 
 export const routes: Routes = [
   {
     path: 'auth',
+    canActivate: [guestGuard],
     loadChildren: () => import('./shared/auth/auth.routes').then((m) => m.authRoutes),
   },
   {
