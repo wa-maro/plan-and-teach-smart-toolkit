@@ -1,7 +1,7 @@
 import { computed, inject, Service, signal } from '@angular/core';
-import { finalize, map, Observable, tap } from 'rxjs';
+import { catchError, finalize, map, Observable, tap, throwError } from 'rxjs';
 import { AuthService } from '../services';
-import { AuthResponseDto, AuthUser, LoginDto } from '../models';
+import { AuthUser, LoginDto } from '../models';
 import { UserRole } from '@shared/models';
 
 type AuthStatus = 'unknown' | 'authenticated' | 'unauthenticated';
@@ -32,6 +32,35 @@ export class AuthStore {
 
   readonly loading = computed(() => this._state().loading);
 
+  initialize(): Observable<AuthUser | null> {
+    this.updateCurrentState({
+      status: 'unknown',
+      loading: true,
+    });
+
+    return this.authService.refresh().pipe(
+      map((res) => res.data),
+
+      tap((data) => {
+        this.updateCurrentState({
+          accessToken: data.access_token,
+          currentUser: data.user,
+          status: 'authenticated',
+        });
+      }),
+
+      map((data) => data.user),
+
+      catchError((error) => {
+        this.clearState();
+
+        return throwError(() => error);
+      }),
+
+      finalize(() => this.updateCurrentState({ loading: false })),
+    );
+  }
+
   login(dto: LoginDto): Observable<AuthUser> {
     this.updateCurrentState({
       loading: true,
@@ -54,16 +83,19 @@ export class AuthStore {
     );
   }
 
-  refresh(): Observable<AuthResponseDto> {
+  refresh(): Observable<AuthUser> {
     return this.authService.refresh().pipe(
       map((res) => res.data),
 
       tap((data) => {
         this.updateCurrentState({
           accessToken: data.access_token,
+          currentUser: data.user,
           status: 'authenticated',
         });
       }),
+
+      map((data) => data.user),
     );
   }
 
