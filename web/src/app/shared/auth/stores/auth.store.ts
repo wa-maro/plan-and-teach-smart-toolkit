@@ -105,7 +105,7 @@ export class AuthStore {
 
   logout(): Observable<null> {
     return this.authService.logout().pipe(
-      map((res) => res.data),
+      map((res) => null),
 
       finalize(() => this.clearState()),
     );

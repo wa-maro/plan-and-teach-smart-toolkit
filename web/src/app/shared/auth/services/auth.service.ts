@@ -16,7 +16,7 @@ export class AuthService {
   }
 
   refresh(): Observable<SuccessApiResponse<AuthResponseDto>> {
-    return this.http.post<SuccessApiResponse<AuthResponseDto>>(`${this.apiUrl}/refresh`, null);
+    return this.http.post<SuccessApiResponse<AuthResponseDto>>(`${this.apiUrl}/refresh`, {});
   }
 
   loadCurrentUser(): Observable<SuccessApiResponse<User>> {
@@ -24,6 +24,6 @@ export class AuthService {
   }
 
   logout(): Observable<SuccessApiResponse<null>> {
-    return this.http.post<SuccessApiResponse<null>>(`${this.apiUrl}/logout`, null);
+    return this.http.post<SuccessApiResponse<null>>(`${this.apiUrl}/logout`, {});
   }
 }
