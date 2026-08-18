@@ -9,7 +9,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (isAuthEndpoint(req.url) && error.status === 401) {
+      if (error.status === 401 && isRefreshEndpoint(req.url)) {
         return throwError(() => error);
       }
 
@@ -28,7 +28,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         app: appError,
       });
 
-      return throwError(() => error);
+      return throwError(() => appError);
     }),
   );
 };
@@ -67,8 +67,6 @@ function getErrorMessage(error: HttpErrorResponse): string {
   }
 }
 
-function isAuthEndpoint(url: string): boolean {
-  return (
-    url.endsWith('/auth/login') || url.endsWith('/auth/refresh') || url.endsWith('/auth/logout')
-  );
+function isRefreshEndpoint(url: string): boolean {
+  return url.endsWith('/auth/refresh');
 }

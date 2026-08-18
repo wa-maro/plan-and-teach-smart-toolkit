@@ -20,7 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status !== 401 || isAuthEndpoint(req.url)) {
+      if (error.status === 401 && isAuthEndpoint(req.url)) {
         return throwError(() => error);
       }
 
@@ -34,9 +34,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         switchMap((user) => {
           const newToken = authStore.accessToken();
 
-          if (!newToken) {
-            return throwError(() => error);
-          }
+          if (!newToken) return throwError(() => error);
 
           const retryReq = req.clone({
             setHeaders: {
