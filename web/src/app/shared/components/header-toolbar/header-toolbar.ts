@@ -1,11 +1,11 @@
-import { Component, model } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
+import { Component, inject, model } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
+import { AuthStore } from '@shared/auth/stores';
 
 @Component({
   selector: 'app-header-toolbar',
-  imports: [MatToolbar, MatIcon, MatIconButton],
+  imports: [MatToolbar, MatIcon],
   templateUrl: './header-toolbar.html',
   styles: `
     mat-toolbar {
@@ -14,7 +14,11 @@ import { MatToolbar } from '@angular/material/toolbar';
   `,
 })
 export class HeaderToolbar {
+  private readonly authStore = inject(AuthStore);
+
   opened = model.required<boolean>();
+
+  protected readonly currentUser = this.authStore.currentUser;
 
   protected toggle = () => this.opened.update((v) => !v);
 }

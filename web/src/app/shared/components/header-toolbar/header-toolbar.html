@@ -1,12 +1,15 @@
 <mat-toolbar class="shadow-sm flex items-center justify-between">
   <div class="flex items-center gap-2">
-    <button matIconButton (click)="toggle()" aria-label="sidebar toggler button with icon">
+    <button (click)="toggle()" aria-label="sidebar toggler button with icon">
       <mat-icon>menu</mat-icon>
     </button>
     <h1 class="text-xl">TeachDocs</h1>
   </div>
 
-  <div>
-    <mat-icon>person</mat-icon>
-  </div>
+  @if (currentUser(); as user) {
+    <div class="flex items-center gap-1 text-sm!">
+      <mat-icon>person</mat-icon>
+      <span>{{ user.username }}</span>
+    </div>
+  }
 </mat-toolbar>
