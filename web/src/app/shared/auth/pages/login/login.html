@@ -1,9 +1,13 @@
-<div class="space-y-6 px-4 py-5 md:px-6">
-  <section class="flex items-center justify-between gap-4">
-    <div class="flex-1 space-y-1">
-      <h2 class="text-xl md:text-2xl font-semibold tracking-tight">Login</h2>
+<section class="flex items-center justify-center md:min-h-[85vh]">
+  <div class="space-y-6 px-4 py-5 md:px-6">
+    <section class="flex items-center justify-between gap-4">
+      <div class="flex-1 space-y-1">
+        <h2 class="text-xl md:text-2xl font-semibold tracking-tight">Login</h2>
 
-      <p class="text-sm text-gray-600">Welcome Back!</p>
-    </div>
-  </section>
-</div>
+        <p class="text-sm text-gray-600">Welcome Back!</p>
+      </div>
+    </section>
+
+    <app-login-form (submitted)="submit($event)" [loading]="loading()" />
+  </div>
+</section>
