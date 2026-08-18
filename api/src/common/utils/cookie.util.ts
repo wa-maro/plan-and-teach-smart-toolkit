@@ -3,7 +3,7 @@ import { Response, CookieOptions } from 'express';
 const cookieOptions: CookieOptions = {
   httpOnly: true,
   sameSite: 'strict',
-  path: '/auth/refresh',
+  path: 'api/v1/auth',
 };
 
 export function setRefreshCookie(
