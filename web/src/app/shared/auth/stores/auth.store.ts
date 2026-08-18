@@ -1,5 +1,5 @@
 import { computed, inject, Service, signal } from '@angular/core';
-import { catchError, finalize, map, Observable, tap, throwError } from 'rxjs';
+import { catchError, finalize, map, Observable, of, tap, throwError } from 'rxjs';
 import { AuthService } from '../services';
 import { AuthUser, LoginDto } from '../models';
 import { UserRole } from '@shared/models';
@@ -28,8 +28,6 @@ export class AuthStore {
 
   readonly isAuthenticated = computed(() => this._state().status === 'authenticated');
 
-  readonly accessToken = computed(() => this._state().accessToken);
-
   readonly loading = computed(() => this._state().loading);
 
   initialize(): Observable<AuthUser | null> {
@@ -53,6 +51,10 @@ export class AuthStore {
 
       catchError((error) => {
         this.clearState();
+
+        if (error.status === 401) {
+          return of(null);
+        }
 
         return throwError(() => error);
       }),

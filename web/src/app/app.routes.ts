@@ -16,7 +16,7 @@ export const routes: Routes = [
     component: PanelLayout,
     loadChildren: () => import('./teacher/teacher.routes').then((m) => m.teacherRoutes),
     data: {
-      roles: [UserRole.ADMIN],
+      roles: [UserRole.TEACHER],
       navLinks: [
         {
           url: 'dashboard',
@@ -32,7 +32,7 @@ export const routes: Routes = [
     component: PanelLayout,
     loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
     data: {
-      roles: [UserRole.TEACHER],
+      roles: [UserRole.ADMIN],
       navLinks: [
         {
           url: 'dashboard',

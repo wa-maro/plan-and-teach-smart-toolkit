@@ -24,7 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         app: appError,
       });
 
-      return throwError(() => appError);
+      return throwError(() => error);
     }),
   );
 };

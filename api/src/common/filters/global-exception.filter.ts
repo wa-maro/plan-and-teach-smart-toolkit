@@ -22,7 +22,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     let message: string | string[] = 'Internal server error';
 
-    let error = 'Internal Server Error';
+    let error = '';
 
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       exception = mapPrismaException(exception);
@@ -32,6 +32,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       statusCode = exception.getStatus();
 
       const exceptionResponse = exception.getResponse();
+      error = exception.name;
 
       if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
