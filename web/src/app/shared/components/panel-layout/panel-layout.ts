@@ -1,3 +1,4 @@
+import { ToastService } from '@shared/components/toast/service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -6,10 +7,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderToolbar } from '../header-toolbar';
 import { AsideNavbar } from '../aside-navbar';
 import { NavLinkItem } from '@shared/types/navigation';
+import { MatIcon } from '@angular/material/icon';
+import { AuthStore } from '@shared/auth/stores';
 
 @Component({
   selector: 'app-panel-layout',
-  imports: [MatSidenavModule, HeaderToolbar, AsideNavbar, RouterOutlet],
+  imports: [MatSidenavModule, HeaderToolbar, AsideNavbar, RouterOutlet, MatIcon],
   templateUrl: './panel-layout.html',
   styles: `
     .dashboard-container {
@@ -42,8 +45,12 @@ import { NavLinkItem } from '@shared/types/navigation';
   `,
 })
 export class PanelLayout {
-  private breakpointObserver = inject(BreakpointObserver);
-  private route = inject(ActivatedRoute);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authStore = inject(AuthStore);
+  private readonly toastService = inject(ToastService);
+
+  protected readonly isAuthenticated = this.authStore.isAuthenticated;
 
   protected opened = signal<boolean>(false);
   protected isMobile = signal<boolean>(false);
@@ -62,4 +69,13 @@ export class PanelLayout {
         this.isMobile.set(result.matches);
       });
   }
+
+  protected logout = () => {
+    this.authStore.logout().subscribe({
+      next: () => {
+        this.toastService.info('Logged out successfully');
+      },
+      error: () => {},
+    });
+  };
 }

@@ -4,8 +4,21 @@
 
 <mat-sidenav-container class="dashboard-container mt-1">
   <mat-sidenav [mode]="isMobile() ? 'over' : 'side'" [(opened)]="opened">
-    <aside class="h-full overflow-y-auto px-6 py-5">
+    <aside class="h-full overflow-y-auto px-6 py-5 flex flex-col justify-between">
       <app-aside-navbar [navLinks]="navLinks" />
+
+      @if (isAuthenticated()) {
+        <form (submit)="logout()">
+          <button
+            mat-button
+            type="submit"
+            class="flex w-full items-center gap-3 border border-transparent cursor-pointer px-3 py-2.5 font-medium transition-colors hover:bg-slate-100 hover:border-slate-200"
+          >
+            <mat-icon class="text-red-600!">logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </form>
+      }
     </aside>
   </mat-sidenav>
 
