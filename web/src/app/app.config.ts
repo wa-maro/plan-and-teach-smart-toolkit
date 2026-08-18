@@ -11,6 +11,7 @@ import { routes } from './app.routes';
 import { EnvConfig } from '@shared/types/config';
 import { credentialsInterceptor, errorInterceptor } from '@shared/interceptors';
 import { AuthStore } from '@shared/auth/stores';
+import { authInterceptor } from '@shared/auth/interceptors';
 
 export const ENV_CONFIG = new InjectionToken<EnvConfig>('env.config');
 
@@ -20,7 +21,9 @@ export const appConfig: ApplicationConfig = {
 
     provideRouter(routes),
 
-    provideHttpClient(withInterceptors([credentialsInterceptor, errorInterceptor])),
+    provideHttpClient(
+      withInterceptors([credentialsInterceptor, errorInterceptor, authInterceptor]),
+    ),
 
     provideAppInitializer(() => {
       const authStore = inject(AuthStore);

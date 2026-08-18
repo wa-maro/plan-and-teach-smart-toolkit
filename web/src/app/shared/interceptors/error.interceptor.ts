@@ -9,6 +9,10 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      if (isAuthEndpoint(req.url) && error.status === 401) {
+        return throwError(() => error);
+      }
+
       const apiError = error.error as Partial<ErrorApiResponse>;
 
       const appError: AppError = {
@@ -61,4 +65,10 @@ function getErrorMessage(error: HttpErrorResponse): string {
     default:
       return 'An unexpected error occurred.';
   }
+}
+
+function isAuthEndpoint(url: string): boolean {
+  return (
+    url.endsWith('/auth/login') || url.endsWith('/auth/refresh') || url.endsWith('/auth/logout')
+  );
 }

@@ -30,6 +30,8 @@ export class AuthStore {
 
   readonly loading = computed(() => this._state().loading);
 
+  readonly accessToken = computed(() => this._state().accessToken);
+
   initialize(): Observable<AuthUser | null> {
     this.updateCurrentState({
       status: 'unknown',
@@ -130,5 +132,9 @@ export class AuthStore {
       ...state,
       ...partial,
     }));
+  }
+
+  expireSession(): void {
+    this.clearState();
   }
 }
