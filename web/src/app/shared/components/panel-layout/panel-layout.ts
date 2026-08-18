@@ -2,13 +2,14 @@ import { ToastService } from '@shared/components/toast/service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderToolbar } from '../header-toolbar';
 import { AsideNavbar } from '../aside-navbar';
 import { NavLinkItem } from '@shared/types/navigation';
 import { MatIcon } from '@angular/material/icon';
 import { AuthStore } from '@shared/auth/stores';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-panel-layout',
@@ -47,6 +48,7 @@ import { AuthStore } from '@shared/auth/stores';
 export class PanelLayout {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly authStore = inject(AuthStore);
   private readonly toastService = inject(ToastService);
 
@@ -71,11 +73,14 @@ export class PanelLayout {
   }
 
   protected logout = () => {
-    this.authStore.logout().subscribe({
-      next: () => {
-        this.toastService.info('Logged out successfully');
-      },
-      error: () => {},
-    });
+    this.authStore
+      .logout()
+      .pipe(take(1))
+      .subscribe({
+        complete: () => {
+          this.router.navigate(['/auth/login']);
+          this.toastService.info('Logged out successfully');
+        },
+      });
   };
 }

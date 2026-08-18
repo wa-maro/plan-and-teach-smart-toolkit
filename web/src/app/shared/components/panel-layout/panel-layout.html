@@ -8,16 +8,14 @@
       <app-aside-navbar [navLinks]="navLinks" />
 
       @if (isAuthenticated()) {
-        <form (submit)="logout()">
-          <button
-            mat-button
-            type="submit"
-            class="flex w-full items-center gap-3 border border-transparent cursor-pointer px-3 py-2.5 font-medium transition-colors hover:bg-slate-100 hover:border-slate-200"
-          >
-            <mat-icon class="text-red-600!">logout</mat-icon>
-            <span>Logout</span>
-          </button>
-        </form>
+        <button
+          mat-button
+          (click)="logout()"
+          class="flex w-full items-center gap-3 border border-transparent cursor-pointer px-3 py-2.5 font-medium transition-colors hover:bg-slate-100 hover:border-slate-200"
+        >
+          <mat-icon class="text-red-600!">logout</mat-icon>
+          <span>Logout</span>
+        </button>
       }
     </aside>
   </mat-sidenav>
