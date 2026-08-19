@@ -70,6 +70,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'forbidden',
+    loadComponent: () => import('./shared/pages/forbidden/forbidden').then((m) => m.Forbidden),
+  },
+
+  {
     path: 'not-found',
     loadComponent: () => import('./shared/pages/not-found/not-found').then((m) => m.NotFound),
   },
