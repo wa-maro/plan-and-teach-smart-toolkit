@@ -17,5 +17,5 @@ export const roleGuard: CanActivateFn = (route) => {
     return true;
   }
 
-  return router.createUrlTree(['/']);
+  return router.createUrlTree(['/forbidden']);
 };

@@ -1,14 +1,26 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastService } from '@shared/components/toast/service';
 import { AppError, ErrorApiResponse } from '@shared/types/api';
 import { catchError, throwError } from 'rxjs';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toast = inject(ToastService);
+  const router = inject(Router);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      if (error.status === 403) {
+        const currentUrl = router.url;
+
+        if (currentUrl !== '/forbidden') {
+          router.navigate(['/forbidden']);
+        }
+
+        return throwError(() => error);
+      }
+
       if (error.status === 401 && isRefreshEndpoint(req.url)) {
         return throwError(() => error);
       }
