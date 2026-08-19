@@ -10,11 +10,16 @@ export const routes: Routes = [
     canActivate: [guestGuard],
     loadChildren: () => import('./shared/auth/auth.routes').then((m) => m.authRoutes),
   },
+
   {
     path: 'teacher',
+
     canActivate: [authGuard, roleGuard],
+
     component: PanelLayout,
+
     loadChildren: () => import('./teacher/teacher.routes').then((m) => m.teacherRoutes),
+
     data: {
       roles: [UserRole.TEACHER],
       navLinks: [
@@ -26,13 +31,19 @@ export const routes: Routes = [
       ],
     },
   },
+
   {
     path: 'admin',
+
     canActivate: [authGuard, roleGuard],
+
     component: PanelLayout,
+
     loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
+
     data: {
       roles: [UserRole.ADMIN],
+
       navLinks: [
         {
           url: 'dashboard',
@@ -56,5 +67,15 @@ export const routes: Routes = [
         },
       ],
     },
+  },
+
+  {
+    path: 'not-found',
+    loadComponent: () => import('./shared/pages/not-found/not-found').then((m) => m.NotFound),
+  },
+
+  {
+    path: '**',
+    redirectTo: 'not-found',
   },
 ];
